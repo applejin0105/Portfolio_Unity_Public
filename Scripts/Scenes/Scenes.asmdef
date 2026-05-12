@@ -1,0 +1,25 @@
+{
+    "name": "Scenes",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:0dd08d4a0853eac43a401d3d5a484ebe",
+        "GUID:b33ee81451330ae498524f1e89ff1b75",
+        "GUID:02e2d9ba96211b341813f90529da86e9",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:bda62e5740847464da17009ad1c5f8ea",
+        "GUID:7e93558c536f24149a3181fbe0a14523",
+        "GUID:41524c21c95e5fe4dbc5b48bd21995a4",
+        "GUID:ba283300490772f4f8d1f69efcb7c60f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
