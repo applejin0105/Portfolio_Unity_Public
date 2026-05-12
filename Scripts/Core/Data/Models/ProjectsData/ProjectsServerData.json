@@ -1,0 +1,22 @@
+﻿{
+  "totalCount": 1,
+  "data": [
+    {
+      "id": 1,
+      "title": "Project1",
+      "duration": "",
+      "department": "",
+      "status": "",
+      "mainTechStack": "",
+      "description": "",
+      "links": {
+        "Git": "",
+        "Tistory": "",
+        "Youtube": "",
+        "HomePage": "",
+        "Steam": ""
+      },
+      "imageSource": "https://api.server.com/images/projects/project_1.png"
+    }
+  ]
+}

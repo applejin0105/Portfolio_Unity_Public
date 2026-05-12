@@ -1,0 +1,95 @@
+﻿{
+  "totalCount": 1,
+  "data": [
+    {
+      "id": 1,
+      "title": "GameTitle",
+      "score": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "playTime": 9999,
+      "description": "",
+      "imageSource": "Images/LocalItem1"
+    },
+    {
+      "id": 2,
+      "title": "GameTitle",
+      "score": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "playTime": 9999,
+      "description": "",
+      "imageSource": "Images/LocalItem1"
+    },
+    {
+      "id": 3,
+      "title": "GameTitle",
+      "score": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "playTime": 9999,
+      "description": "",
+      "imageSource": "Images/LocalItem1"
+    },
+    {
+      "id": 4,
+      "title": "GameTitle",
+      "score": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "playTime": 9999,
+      "description": "",
+      "imageSource": "Images/LocalItem1"
+    },
+    {
+      "id": 5,
+      "title": "GameTitle",
+      "score": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "playTime": 9999,
+      "description": "",
+      "imageSource": "Images/LocalItem1"
+    },
+    {
+      "id": 6,
+      "title": "GameTitle",
+      "score": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "playTime": 9999,
+      "description": "",
+      "imageSource": "Images/LocalItem1"
+    }
+  ]
+}
