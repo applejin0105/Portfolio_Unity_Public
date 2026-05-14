@@ -8,12 +8,8 @@
 > 해당 깃 페이지에(하단 링크) 자세한 코드 설명이 첨부되어있습니다.
 
 **Links**
-
-*UI Effect*
 - [📁 `UI Effect Core` (UI Effect의 핵심 구성 요소를 담고있는 Core)](./Scripts/Components/Effects/UI/Core)
 - [📁 `UI Effect Types` (여러 UI Effect를 모아둔 파일)](./Scripts/Components/Effects/UI/Types)
-
-*Buttons*
 - [📁 `Button Core` (버튼의 핵심 구성 요소를 담고있는 Core)](./Scripts/Components/Common/Buttons/Core)
 - [📁 `Button Types` (Compound Button을 상속받으면서, 다른 효과를 가진 Button들)](./Scripts/Components/Common/Buttons/Types)
 <br><br><br>
