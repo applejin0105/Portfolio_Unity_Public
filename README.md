@@ -34,7 +34,7 @@
 ## Attributes
 > **Overview:** 인스펙터 확장용 에디터 스크립트들을 설계했습니다.
 > 
-> 해당 깃 페이지에(하단 링크) 자세한 코드 설명이 첨부되어있습니다.
+> 해당 깃 페이지 Attributes에(하단 링크) 자세한 코드 설명이 첨부되어있습니다.
 
 **Links**
 - [📁 `Attributes` (화면에 그리는 Drawer)](./Scripts/Core/Attributes)
