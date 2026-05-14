@@ -1,5 +1,6 @@
 ## ClickableDeco.cs
 > 클릭 가능한 데코용 버튼입니다. PlayEffect시 사진과 이펙트 여부를 통해 사진이 교체되거나 이펙트가 작동하거나 둘 다 작동하는 방식으로 구현한 장식용 이펙트입니다.
+<img width="302" height="314" alt="ClickableDeco" src="https://github.com/user-attachments/assets/40a13393-e171-4e6e-b70f-eced733d43f0" />
 
 ```csharp
         private void PlayEffectType(bool useSprite, bool useEffect)
@@ -24,6 +25,9 @@
 
 ## InteractiveNumberButton.cs
 > 상호작용 가능한 숫자 버튼입니다. 버튼을 누르면, 버튼이 변경되고, 이에 맞게 숫자가 갱신됩니다. 각각의 숫자에 맞는 Bloom 효과도 구현되어 있으며 비밀번호를 맞췄으면 띵띵띵 소리가 나면서 멋진 연출도 구현했습니다. (이건 좀 멋짐)
+<img width="800" height="438" alt="Interact01" src="https://github.com/user-attachments/assets/17750a95-6699-434f-a47e-4aea9ab53e50" />
+
+<img width="800" height="431" alt="Interact02" src="https://github.com/user-attachments/assets/cee772e8-b45d-46d8-9f40-5af7454bbce7" />
 
 ```csharp
         public void SucEffect(int newValue)
