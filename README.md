@@ -224,3 +224,6 @@
 - [📁 `Logic` (Battle Scene의 Logic을 정의하고 관리)](./Scripts/Scenes/Battle/Logic)
 - [📁 `Shop` (Battle Scene의 Shop을 정의하고 관리)](./Scripts/Scenes/Battle/Shop)
 - [📁 `UI` (Battle Scene의 모든 UI를 정의하고 관리)](./Scripts/Scenes/Battle/UI)
+
+<img width="716" height="790" alt="Diagram" src="https://github.com/user-attachments/assets/7a91a682-2344-48b2-b698-c1f197dbb302" />
+
