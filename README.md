@@ -20,7 +20,7 @@
 <div align="center">
   <code> · · · </code>
 </div>
-<br><br><br>
+<br><br>
 
 # Core
 > 게임에 들어가는 Bootstrapper, 총괄 Manager와 같은 Core Logic들을 구현한 네임스페이스입니다.
@@ -115,7 +115,7 @@
 <div align="center">
   <code> · · · </code>
 </div>
-<br><br><br>
+<br><br>
 
 <br>
 
