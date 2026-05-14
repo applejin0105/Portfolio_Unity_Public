@@ -37,7 +37,8 @@
 > 해당 깃 페이지 Attributes에(하단 링크) 자세한 코드 설명이 첨부되어있습니다.
 
 **Links**
-- [📁 `Attributes` (화면에 그리는 Drawer)](./Scripts/Core/Attributes)
+- [📁 `Attributes` (README 첨부용 Top 딕셔너리)](./Scripts/Core/Attributes)
+- [📁 `Drawer` (화면에 그리는 Drawer)](./Scripts/Core/Attributes/Drawer)
 - [📁 `Editor` (실질적 기능들)](./Scripts/Core/Attributes/Editor)
 
 <br>
