@@ -1,10 +1,6 @@
 ## Components.Common.Buttons.Core
 > **요약:** 인스펙터에서 애니메이션 데이터를 설정하고, 코드로 이펙트를 제어할 수 있도록 구조를 분리한 커스텀 UI 버튼 시스템입니다. 유지보수와 재사용이 편하도록 이벤트 감지와 실행 로직을 나누어 설계했습니다.
 
-
-### CompoundButton System
-
-**Description**
 **역할:** 버튼의 상태(Hover, Pressed 등)에 따라 크기, 색상, 매테리얼 효과(Glow, Bloom) 등을 자연스럽게 전환해 주는 복합 버튼 컨트롤러입니다.
 **구조:**
   - `UIButtonEffect`: 상태 머신 및 인터페이스 이벤트 감지
