@@ -73,5 +73,5 @@
             if (SoundManager.Instance != null) SoundManager.Instance.PlaySfx(SfxSoundType.Dding);
         }
 ```
-- 내부 버튼들의 번호를 갱신하고, IntroSceneManager와 연동하여 데이터를 공유합니다.
-- Bloom도 숫자에 맞게 이쁘게 표시되게 하였습니다. (진짜 Bloom이 아닌 Fake Bloom을 사용하기 때문에 배경 Bloom 이미지를 작게 만들어야 했습니다.)
+내부 버튼들의 번호를 갱신하고, IntroSceneManager와 연동하여 데이터를 공유합니다.
+Bloom도 숫자에 맞게 이쁘게 표시되게 하였습니다. (진짜 Bloom이 아닌 Fake Bloom을 사용하기 때문에 배경 Bloom 이미지를 작게 만들어야 했습니다.)
