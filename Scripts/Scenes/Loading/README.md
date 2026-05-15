@@ -1,5 +1,5 @@
 ### Loading Scene
-> **Overview:** 프로젝트의 모든 로딩을 처리합니다. 이 과정에서 기기의 사양을 점검하여 Preload인지 SingleLoad인지 구분합니다.
+> **요약:** 프로젝트의 모든 로딩을 처리합니다. 이 과정에서 기기의 사양을 점검하여 Preload인지 SingleLoad인지 구분합니다.
 
 <img width="800" height="450" alt="Loading" src="https://github.com/user-attachments/assets/1a6476b4-d97a-41eb-85a4-4ca81642cadd" />
 
