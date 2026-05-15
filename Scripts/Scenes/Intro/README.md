@@ -1,6 +1,8 @@
 ### Intro
 > **Overview:** 프로젝트 진입 화면입니다.
 
+<img width="800" height="450" alt="Intro" src="https://github.com/user-attachments/assets/cb48b985-7a8b-4c05-b0ea-79ad97b87b43" />
+
 - `IntroSceneManager`: 씬을 전체적으로 관리하는 매니저입니다. Intro Scene의 경우, Preload와 SingleLoad 판별전이라 오직 단일 씬으로 구성되어 있기에 BaseSceneManager를 상속받지 않습니다. 시작하면 PasswordWindow를 노출시킵니다.
 - `PasswordManager`: 비밀번호를 입력하고, 다음으로 넘어갈 수 있는 PasswordManager입니다. 처음 제작 및 기획 당시, 홈페이지를 완성한 시점이었기에 당연히 서버까지 구현했습니다. 하지만 생각할수록 개인정보를 담고있는 유니티 프로젝트에 서버 통신까지 넣기에는 개발 경험과 지식이 부족하기도 하고, 개발 시간이 지나치게 오래 걸릴 것 같아 생략하였습니다. 하지만, 서버 모드의 시작과 데이터 로딩 로직은 일정부분 구현해두어 다른 프로젝트나 게임에서 서버 관련 로직을 작성할 때 공부가 되도록 준비했습니다.
 - `IntroSceneUIController`: Intro Scene의 UI를 총괄적으로 관리하고 있습니다. 씬 진입 시 연출과 퇴장 시 연출을 앞서 설계한 EffectSequence를 통해 인스펙터에서 유연하게 처리가 가능하게 해두었습니다. 또한 메모리 최적화를 위해 `config`를 캐싱하여 재사용하는 방식으로 구현했습니다. 추후에는 이 모든걸 인스펙터에서 가능하게끔 Effect를 수정하고자 합니다.
