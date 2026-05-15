@@ -1,6 +1,8 @@
 ### Projects Scene
 > **요약:** JSON 데이터를 기반으로 사용자의 프로젝트 포트폴리오를 출력하는 씬입니다. 데이터 개수와 무관하게 한정된 UI 객체만을 재사용하여 리소스를 최적화하는 캐러셀(Carousel) 슬라이드 연출을 구현했습니다.
 
+<img width="800" height="450" alt="Projects" src="https://github.com/user-attachments/assets/6cf2714d-1f63-45b2-b4f7-c49a48444a6f" />
+
 #### 주요 로직
 * **순환형 캐러셀 슬라이드 알고리즘 (`ProjectsPrefabManager`):** * 화면에 보이는 3개의 카드와 화면 밖 좌우에 숨겨진 대기용 카드 2개, 총 5개의 UI 프리팹(`projectContainer`)만으로 구성된 슬라이더 풀(Pool)을 구축했습니다.
   * `DOTween` 및 `Cubic Ease-Out` 수학 공식을 결합하여, 단순히 이동만 하는 것이 아니라 약간의 텐션(`PunchRotation`)이 가미된 고급스러운 슬라이드 전환 애니메이션을 구현했습니다.
