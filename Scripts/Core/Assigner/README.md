@@ -1,6 +1,5 @@
 ### Camera Canvas Assigner
 
-**Description**
 - **역할:** 프리팹으로 만들어진 카메라를 스크린 스페이스 카메라 렌더모드인 캔버스에 자동으로 할당합니다. Preload와 Single Load 방식 모두를 지원하기 위해 구현한 클래스입니다.
 - **구조:**
   - `CanvasCameraAssigner`: 프리팹 형식으로 선언된 카메라를 캔버스에 붙여주는 클래스.
