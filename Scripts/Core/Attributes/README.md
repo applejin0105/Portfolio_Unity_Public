@@ -1,6 +1,5 @@
 ### Inspector Extensions
 
-**Description**
 - **역할:** 기획자 및 디자이너의 작업 효율을 높이고, 잘못된 데이터 입력을 방지하기 위해 유니티 기본 인스펙터(Inspector)의 GUI를 확장하고 커스텀하는 에디터 툴킷입니다.
 - **구조:**
   - 모든 확장은 런타임에 데이터 명찰 역할을 하는 Attribute 클래스와, 유니티 에디터 환경(UNITY_EDITOR)에서만 동작하며 실제 화면을 그리는 PropertyDrawer 클래스로 완벽히 분리되어 있습니다.
