@@ -1,5 +1,5 @@
 ### Intro
-> **Overview:** 프로젝트 진입 화면입니다.
+> **요약:** 프로젝트 진입 화면입니다.
 
 <img width="800" height="450" alt="Intro" src="https://github.com/user-attachments/assets/cb48b985-7a8b-4c05-b0ea-79ad97b87b43" />
 
