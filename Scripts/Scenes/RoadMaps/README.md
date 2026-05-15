@@ -1,6 +1,8 @@
 ### Road Maps Scene
 > **요약:** 사용자가 학습해야 할 로드맵 카테고리를 보여주는 씬입니다. 사용자가 탭을 클릭하면 해당 버튼의 위치에서부터 화면 전체로 확장되는 역동적인 '원형 마스킹(Radial Masking) 트랜지션'을 구현하여 고도화된 UI/UX를 제공합니다.
 
+<img width="800" height="450" alt="RoadMaps" src="https://github.com/user-attachments/assets/5d742c17-806b-4c29-9525-f0dc6fb3daef" />
+
 #### 주요 로직
 * **월드 좌표 기반 원형 마스크 확장 연출 (`RadialTransitionManager`):** * 클릭된 UI 엘리먼트(`RectTransform`)를 타겟으로 삼아, 해당 UI의 좌표를 중심으로 화면 전체를 덮는 Radial Mask 확장을 수행합니다.
   * 단순히 화면 중앙에서 퍼지는 것이 아니라, 유저가 누른 버튼의 월드 좌표(World Space)를 계산하여 정확한 기점에서부터 마스킹이 팽창 및 축소되도록 수학적 연출을 구현했습니다.
