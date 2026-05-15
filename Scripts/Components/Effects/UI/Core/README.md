@@ -1,6 +1,5 @@
 ### UI Effect System
 
-**Description**
 - **역할:** UI의 여러 효과를 제어하고, 동시에 혹은 순차적으로 출력 가능한 시스템입니다.
 - **구조**
   - `[UIEffect]`: 모든 UI Effect의 공통 분모(타겟의 RectTransform, 애니메이션 재생시간, 애니메이션 타입 -Normal/DOTween-을 관리)
