@@ -6,18 +6,6 @@ using Components.Common.Buttons;
 using UnityEngine;
 using UnityEngine.Networking;
 
-// 면접관에게 어필할 포인트 (기술 면접용)
-// 구조적 유연성 (Architecture)
-// 로컬 개발 환경과 라이브 환경을 고려하여 bool 플래그로 로직을 분리
-// 프로토타이핑 단계에서는 Local Mode로 빠르게 개발하고, 배포 시에는 Server Mode로 전환하여 보안을 강화할 수 있도록 설계
-// 서버 권한에 대한 이해 (Server Authority)
-// 보안을 위해 클라이언트의 Update 문에서 시간을 계산하지 않고, 철저하게 서버의 응답(Response)에 의존하도록 구현
-// 클라이언트 시간은 사용자가 OS 설정으로 조작할 수 있습니다.
-// 따라서 실패 횟수 카운팅이나 차단(Ban) 로직은 클라이언트 메모리가 아닌, 서버 DB에 기록하고, 클라이언트는 서버가 내려준 Unix Timestamp를 받아와 표시만 하도록 구현
-// REST API 통신 표준 준수
-// 게임 서버와 통신하기 위해 TCP 소켓 대신, 인증 단계에서는 REST API(HTTP POST) 방식을 채택
-// 직접 DB 커넥션을 맺는 것은 보안 취약점이 되므로, 중간에 웹 서버(Linux/Nginx) 레이어를 두는 구조를 상정하고 UnityWebRequest를 사용
-
 namespace Scenes.Intro.Manager
 {
     [Serializable]
