@@ -86,7 +86,6 @@
 
 **Links**
 - [📁 `Extensions` (UI 및 그래픽 최적화, 카메라 및 화면 제어, 디버깅 및 시각화, 수학 및 물리연산, 입력 및 인터렉션)](./Scripts/Core/Extensions)
-- [📁 `Editor` (이미 존재하는 ECNaming을 조금 수정하여 사용하고 있습니다. 클릭 시, 해당 깃 페이지로 이동합니다.)](https://github.com/hahahohohun/PublicCode/blob/main/README.md#ecnamingcs)
 
 <br>
 
