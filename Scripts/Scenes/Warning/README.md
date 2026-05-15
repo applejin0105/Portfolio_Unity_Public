@@ -1,5 +1,5 @@
 ### Warning Scene
-> **Overview:** 프로젝트 진입 전 간단한 프로젝트 소개와 기술 스택에 관한 소개를 담은 화면입니다.
+> **요약:** 프로젝트 진입 전 간단한 프로젝트 소개와 기술 스택에 관한 소개.
 
 <img width="800" height="450" alt="Warning" src="https://github.com/user-attachments/assets/945faaaf-34ec-498b-8efa-694204a02db1" />
 
