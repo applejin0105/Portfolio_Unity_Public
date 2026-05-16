@@ -1,5 +1,5 @@
 ### Main Scene
-> **요약:** 프로젝트의 허브 역할을 하는 메인 로비 씬입니다. 사용자가 가장 처음 마주하는 공간으로, 모든 씬으로의 접근을 제어하며 다채로운 인터랙티브(Interactive) UI 이펙트를 제공합니다.
+> **요약:** 프로젝트의 허브 역할을 하는 메인 로비 씬입니다. 가장 처음 마주하는 공간으로, 모든 씬으로의 접근을 제어하며 다채로운 인터랙티브(Interactive) UI 이펙트를 제공합니다.
 
 <img width="800" height="450" alt="Main" src="https://github.com/user-attachments/assets/72004e94-c330-4c93-8aa0-a120f6d7dcde" />
 
