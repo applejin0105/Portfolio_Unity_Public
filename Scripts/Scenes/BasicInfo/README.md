@@ -1,5 +1,5 @@
 ### Basic Info Scene
-> **요약:** 사용자의 기본 정보(정보, 소개, 지원 동기, 철학, 기술 스택, 경력)을 카테고리별로 열람할 수 있는 씬입니다. 데이터 간의 이동이 잦은 UI 구조를 고려하여, 컴포넌트 간 결합도를 낮춘 이벤트 기반의 상태 관리(State Management)를 구현했습니다.
+> **요약:** 제작자의 기본 정보(정보, 소개, 지원 동기, 철학, 기술 스택, 경력)을 카테고리별로 열람할 수 있는 씬입니다. 데이터 간의 이동이 잦은 UI 구조를 고려하여, 컴포넌트 간 결합도를 낮춘 이벤트 기반의 상태 관리(State Management)를 구현했습니다.
 
 <img width="800" height="450" alt="BasicInfo" src="https://github.com/user-attachments/assets/edcec215-39ea-4c2d-85a9-3646e2e3e6ac" />
 
