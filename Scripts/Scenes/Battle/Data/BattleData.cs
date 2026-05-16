@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Core.Data.Enums;
 using Scenes.Battle.Entity;
@@ -20,22 +20,6 @@ namespace Scenes.Battle.Data
     #endregion
 
     #region Structs
-
-    [Serializable]
-    public struct DynamicViewConfig
-    {
-        public float padding;
-        public Vector3 positionOffset;
-        public Vector3 rotationOffset;
-    }
-
-    [Serializable]
-    public struct StaticViewConfig
-    {
-        public Vector3 position;
-        public Vector3 rotation;
-        public float fieldOfView;
-    }
 
     [Serializable]
     public struct Coin : IEquatable<Coin>
