@@ -39,7 +39,6 @@ namespace Scenes.Battle.Manager
 
         private void EnterScene()
         {
-            // BGM 볼륨을 0.3f (30%) 등으로 개별 설정
             SoundManager.Instance.AddBgmToQueue(BGMSoundType.Battle1, 0.3f);
             SoundManager.Instance.AddBgmToQueue(BGMSoundType.Battle2, 0.3f);
             SoundManager.Instance.AddBgmToQueue(BGMSoundType.Battle3, 0.3f);
