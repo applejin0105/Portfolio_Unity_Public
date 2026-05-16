@@ -5,7 +5,7 @@ using Core.Data.Enums;
 using Core.Managers;
 using UnityEngine;
 
-namespace Scenes.Battle
+namespace Scenes.Battle.Manager
 {
     public class BattleSceneManager : MonoBehaviour
     {
