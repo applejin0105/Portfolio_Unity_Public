@@ -1,5 +1,5 @@
 ### Projects Scene
-> **요약:** JSON 데이터를 기반으로 사용자의 프로젝트 포트폴리오를 출력하는 씬입니다. 데이터 개수와 무관하게 한정된 UI 객체만을 재사용하여 리소스를 최적화하는 캐러셀(Carousel) 슬라이드 연출을 구현했습니다.
+> **요약:** JSON 데이터를 기반으로 프로젝트 포트폴리오를 출력하는 씬입니다. 데이터 개수와 무관하게 한정된 UI 객체만을 재사용하여 리소스를 최적화하는 캐러셀(Carousel) 슬라이드 연출을 구현했습니다.
 
 <img width="800" height="450" alt="Projects" src="https://github.com/user-attachments/assets/6cf2714d-1f63-45b2-b4f7-c49a48444a6f" />
 
