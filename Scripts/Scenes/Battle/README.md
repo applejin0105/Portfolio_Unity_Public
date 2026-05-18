@@ -1,9 +1,10 @@
 # Battle Scene
 > **요약:** 오토체스와 림버스 컴퍼니 전투 방식을 결합하여 만든 게임
 
-![Battle Scene 진입](<img width="800" height="450" alt="BattleEnter" src="https://github.com/user-attachments/assets/99485910-5877-4b71-9991-6a4cd187c5f0" />)
+<img width="800" height="450" alt="BattleEnter" src="https://github.com/user-attachments/assets/99485910-5877-4b71-9991-6a4cd187c5f0" />
 
-![실제 인게임 플레이]()
+<img width="800" height="442" alt="Battle" src="https://github.com/user-attachments/assets/1568ff3d-bb7c-497f-b8b2-824a7630e3d6" />
+
 
 ## 개요
 로드맵까지 끝내고 나자 아쉬웠습니다. 게임 개발자로 취업하고자 한다면, 게임이 있어야 하지 않을까? 라는 안일한 생각의 시작으로 **어떤**게임을 만들까 고민했습니다. 예전에 물리까지 전부 구현해서 만든 수박게임을 만들까? 하다가, 생각을 바꾸었습니다. 최근 가장 많이하고 오래 한 게임을 이용해서 게임을 만들어보자! 그게 시작이었습니다.
@@ -18,7 +19,7 @@
 
 이렇게 목표를 잡고, 어떤 게임을 만들지 고민했습니다. 림버스 컴퍼니 2482시간(스팀 기준, 모바일 합산시 +α), LV.115의 업적(?)을 보유하고 있으므로, 그리고 프로젝트 문이라는 회사를 목표로 하고 있는 만큼, 당연히 베이스는 림버스 컴퍼니로 잡았습니다. 그렇다면 문제는 이 림버스 컴퍼니로 무엇을 만들까? 였습니다.
 
-![림버스 컴퍼니 프로필]()
+<img width="1907" height="991" alt="개요" src="https://github.com/user-attachments/assets/61cff4a1-40ef-4a33-b220-127f83e70773" />
 
 이 즈음 '플러리'라는 하스스톤 스트리머의 방송을 몇번 보며, 고등학교때 했던 하스스톤이 정말 많이 변하기도 했고 거기에 지금 제작중인 'Cultist'라는 게임이 카드게임이므로, 림버스 컴퍼니 + 카드게임을 생각해보았습니다. 가급적이면 림버스 컴퍼니의 전투나 모션, 백엔드를 일정 부분 구현해보면서 제작중인 게임에 사용할 요소들을 미리 공부해보고 싶었습니다. 그래서 고민을 하던 중, 하스스톤의 전장과 같은 오토체스 형식에 림버스 컴퍼니의, 제가 가장 자주 사용하는 방식인 승률->딸깍 방식을 결합해서 **림토체스**를 만들기로 결정하였습니다. 지금부터 이 배틀 시스템을 구현하면서, 코드를 어떻게 짯는지 설명하겠습니다.
 
@@ -50,7 +51,7 @@ BattleDirector는 라운드/턴/스폰/경제/승패를 호출하는 게임 Dire
 
 이를 다이어그램으로 표현해보면, 다음과 같이 볼 수 있습니다.
 
-![다이어그램]()
+<img width="3616" height="4388" alt="Flow" src="https://github.com/user-attachments/assets/1019207d-c47f-49a1-9bd8-a146a126cc6a" />
 
 그리고 BattleDirector의 프로퍼티는 다음과 같습니다.
 
@@ -520,11 +521,13 @@ UnitData를 받아서 초기화합니다. 미리 만들어둔 캐릭터 SO들을
     3. z값은 무시된다! why? -> Overlay는 3D 공간을 아예 거치지 않고 모니터 픽셀에 UI를 직접 인쇄해 버리는 방식이기 때문.
 그림을 보게 되면, 네개의 오버레이와 각각 이미지가 들어있습니다. 첫번째는 Sort가 0인 이미지로 가운데에 위치해있습니다.
 
-[Canvas가 여러개일때]()
+<img width="711" height="662" alt="overlay 설명" src="https://github.com/user-attachments/assets/2661f26f-329b-471b-978d-a258314aa9ec" />
+
 
 그림을 보게 되면, Sort0인 그림 두 개는 동일한 sort oredr에 있음에도 하이라키상 위에 존재하는 그림이 앞에 위치하고 있습니다(가운데 지훈클롭스와 가장 뒤 지훈클롭스). 그리고 sort order가 1이면서 동시에 하이라키 가장 위에 있는 회피중인 지훈클롭스가 가장 위에 표시되고 있습니다. 이를 하이라키상 뒤, 그러니깐 Overlay_Sort0의 위로 옮겨도 동일하게 앞에 위치합니다. 반면 카메라 캔버스의 경우 Sort Order를 아무리 올려도, zorder를 아무리 올려도 언제나 뒤에 위치하게 됩니다.
 
-[하나의 Overlay Canvas에서 Sorting]()
+<img width="385" height="358" alt="overlay 설명2" src="https://github.com/user-attachments/assets/8ae40776-c8c3-4312-a3fc-6fb7226f851f" />
+
 
 반면 이렇게 동일한 Overlay Canvas에 위치하고 있을 때는 하이라키 위치가 중요합니다. 앞에 나와있는 지훈클롭스가 하이라키상 아래 위치하고 있습니다. 그리고 z 값은 앞에 위치한 지훈 클롭스가 더 작지만, 전혀 영향을 받지 않습니다.
 
@@ -799,7 +802,7 @@ if (pushDirection == Vector3.zero) pushDirection = Vector3.forward;
 - 창들이 스폰되면 공격자 주위를 빙글빙글 돌다가 `Fire` 명령이 떨어지면 타임스케일을 무시(`Time.unscaledDeltaTime`)하고 날아갑니다. 이는 스킬 3은 주변 슬로모션 적용 + 주변 인물들 opacity 조절이 진행되므로 이 투사체는 반드시 타임 스케일을 무시해야 똑바로 작동합니다. 아니면 느려진 시간 속에서 함께 느려지므로.......
 - 이렇게 타겟이 닿는 순간 콜백 함수(`_onHitCallback`)를 호출하여 타겟에게 대미지를 입힙니다.
 
-[Spear]()
+<img width="800" height="333" alt="spear" src="https://github.com/user-attachments/assets/b39af735-9114-4f5f-86d3-f03fbf83ac64" />
 
 | 구분 | SpearAttackLogic | SpearProjectile |
 | :--- | :--- | :--- |
@@ -814,7 +817,7 @@ if (pushDirection == Vector3.zero) pushDirection = Vector3.forward;
 
 - 캐릭터 설계, 코인 로직 설계 그리고 공격 애니메이션까지 끝났다면 이제 실제로 핵심 전투 로직이 어떻게 돌아가는지 설명하겠습니다. 우선, 다음 다이어그램을 통해 전투가 어떤 방식으로 진행되는지 간단하게 설명하겠습니다.
 
-![전투 다이어그램]()
+<img width="1903" height="6029" alt="전투 다이어그램" src="https://github.com/user-attachments/assets/21e9da0a-40e1-418f-a05c-a9a9c394c5b3" />
 
 1. 전투 개시
    1. 전투 시작 버튼 클릭
@@ -1268,8 +1271,9 @@ Tracker가 계산을 했다면, `CameraController`가 이름값을 할 차례입
 2. 그러니 크기 H인 대상을 다 담으려면 d = H / (2·tan(FOV/2)). 여기에 아무래도 딱 붙으면 보기 싫으니 padding을 곱해서 여유를 줍니다.
 3. 이제 H를 구했으니 W를 구합니다. 유니티의 _cam.aspect는 W*H입니다. 그리고 기본적으로 제공해줍니다. 그러니 여기에 H를 곱해주기만하면, 복잡하게 atan 역산할 필요 없이 값이 나옵니다.
 
-![식 유도1]()
-![식 유도2]()
+<img width="1920" height="1080" alt="높이계산" src="https://github.com/user-attachments/assets/9f193372-1382-4d31-8ec7-5b2f7dcf3934" />
+
+<img width="1920" height="1080" alt="넓이 계산" src="https://github.com/user-attachments/assets/f87ad2be-f88c-45ce-ae42-ee21324ccf1a" />
 
 이렇게 나온 값중 최대값을 찾습니다.
 ```csharp
@@ -1323,7 +1327,7 @@ Tracker가 계산을 했다면, `CameraController`가 이름값을 할 차례입
 
 필드를 관리합니다. 필드는 다음 사진처럼 구성되어있습니다.
 
-![필드]()
+<img width="1501" height="717" alt="Field" src="https://github.com/user-attachments/assets/827d1943-a800-4f6f-82ec-03f45b014d34" />
 
 일전에 `TargetingArrow`를 설명할때 핵심 로직은 설명했으니, 가볍게 설명하겠습니다. 필드는 기본적으로 적이 소환될 공간, 플레이어가 소환될 공간으로 나뉩니다. 각각의 공간에 '어디에' 소환될지는 필드에 사전 준비해두었습니다.
 사진에 보이는 커다란 사각형은 FieldZone 태그가 부착된 콜라이더입니다. 앞에서 설명했 듯, 이곳에 레이케스팅이 되면 필드로 유닛을 배치(`AddUnitToField`)합니다.
@@ -1427,8 +1431,10 @@ public class ListProfilingTest : MonoBehaviour
 }
 ```
 
-![프로파일링을 통한 리스트와 딕셔너리 차이1]()
-![프로파일링을 통한 리스트와 딕셔너리 차이2]()
+<img width="2283" height="332" alt="Bad" src="https://github.com/user-attachments/assets/40303dc6-3fa6-4989-89c0-5c017a3f6565" />
+
+<img width="2284" height="334" alt="Good" src="https://github.com/user-attachments/assets/90f526f9-6688-4515-a746-8bf233c31124" />
+
 
 여기에서는 다음 항목을 볼 수 있습니다.
    1. GC Alloc: 이번 프레임에 Heap 메모리에 생성된 Garbage의 양을 뜻합니다.
@@ -1440,7 +1446,7 @@ public class ListProfilingTest : MonoBehaviour
 
 이렇게 사실 이렇게까지 프레임마다 10000씩 반복은 하지 않겠지만, 이렇게 하나하나 잡을 수 있는 요소는 잡아야 최적화가 된다고 생각하고, 진행해보았습니다.
 
-### [`Board/MergeManager.cs`]()
+### [`Board/MergeManager.cs`](./Scripts/Scenes/Battle/Board/MergeManager.cs)
 > 3개 합성 + 전투 중 큐 처리
 
 오토체스 류 게임의 특징을 그대로 살리고자 노력했습니다.
