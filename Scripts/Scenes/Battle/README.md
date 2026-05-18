@@ -1091,6 +1091,8 @@ public IEnumerator ExecuteMovement(Transform target, Vector3 destination, float 
 
 그래서 결국 가속도 공식`(a = F/m)`에 의해, 속도와 상관없이 무조건 가벼운(Weight가 낮은) 쪽이 더 멀리 튕겨 나가야 합니다. 그런데 이러면 재미 없습니다. 내가 합을 이겼는데 왜 내가 더 멀리 튕겨나가야 하는 느낌이 들어야하지?
 
+<img width="783" height="1384" alt="KakaoTalk_20260518_190441916" src="https://github.com/user-attachments/assets/f5794fc0-c303-4fc9-acc2-136953e48b7a" />
+
 물론 여기서 그럼 무게 개념을 빼버리면 되겠지만, 뭔가 묵직한 맛도 좀 있으면 좋기도 하고, 여기서는 완벽하게 똑같은 시스템을 구현하기 보다는, 제가 어떤 생각을 가지고 해석해서 구현했는지 보여드리는게 더 좋을 것 같았습니다. 따라서 다음과 같이 바꾸어보았습니다.
 
 1. 가속할 때 (현실 물리 적용): BattleActionController에서 가속도(accelA)를 구할 때는 Weight로 나눠줍니다. 즉, 무거운 유닛은 굼뜨게 출발하고, 가벼운 유닛은 미친 듯이 가속합니다.
