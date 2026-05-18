@@ -1,5 +1,7 @@
 # Portfolio_Unity_Public
 
+[핵심인 배틀 시스템을 바로 보고 싶다면 이동할 수 있습니다.](./Scripts/Scenes/Battle)
+
 # Components
 
 ## Components.Effects.UI
@@ -212,6 +214,7 @@
 > 해당 깃 페이지에(하단 링크) 자세한 코드 설명이 첨부되어있습니다.
 
 **Links**
+- [📁 `Battle` (Battle Scene의 코드와 예시를 전부 담고있는 궁극의 폴더)](./Scripts/Scenes/Battle)
 - [📁 `Manager` (Battle Scene을 관리하는 매니저)](./Scripts/Scenes/Battle/Manager)
 - [📁 `Controller` (Battle Scene의 UI를 관리하는 Controller. 이때 UI는 내부 게임 UI가 아닌 Scene 진입 및 퇴장 관련만 담당)](./Scripts/Scenes/Battle/Controller)
 - [📁 `Board` (Battle Scene의 Board를 정의하고 관리)](./Scripts/Scenes/Battle/Board)
