@@ -119,7 +119,7 @@ namespace Scenes.Battle.Cameras
 
             CameraMoveConfig currentToTargetConfig = targetConfig;
 
-            // [방어 코드] FOV End가 0으로 설정되어 있다면 현재 FOV를 유지하여 급격한 확대를 방지
+            // FOV End가 0으로 설정되어 있다면 현재 FOV를 유지하여 급격한 확대를 방지
             if (currentToTargetConfig.fov.end <= 0.1f)
             {
                 currentToTargetConfig.fov.end = _cam.fieldOfView;
