@@ -30,13 +30,13 @@
 ## Chapter 1. 프로젝트 조망
 > 게임의 핵심 로직 및 루프를 간단히 설명
 
-### [`Manager/BattleSceneManager.cs`](./Scripts/Scenes/Battle/Manager/BattleSceneManager.cs)
+### [`Manager/BattleSceneManager.cs`](./Manager/BattleSceneManager.cs)
 > 씬 진입점
 
 씬에 진입하는 로직을 담았습니다. 전투에 사용하는 BGM(림버스 여러 전투 BGM중 가장 좋아하는 노래들)들을 QUeue에 저장하고, 이 음악들을 재생시킵니다. 이와 동시에 씬 진입 기본 연출인 페이드인을 수행합니다.
 
 
-### [`Core/BattleDirector.cs`](./Scripts/Scenes/Battle/Core/BattleDirector.cs)
+### [`Core/BattleDirector.cs`](./Core/BattleDirector.cs)
 > 게임 루프 관리(라운드·턴·스폰·경제·게임오버) *현재는 간단하게 흐름만 살펴보고, 이부분은 추후 Chapter 9 마지막에서 다시 다루겠습니다.*
 
 게임의 장르는 **림버스 컴퍼니의 전투 방식을 사용한, 2.5D 오토배틀러**입니다.
@@ -92,7 +92,7 @@ BattleDirector는 라운드/턴/스폰/경제/승패를 호출하는 게임 Dire
 ## Chapter 2. 데이터 토대 및 용어 사전 정의
 > 게임에 사용되는 데이터, ScripatableObject 유닛, 유닛 데이터 베이스 풀링과 스테이지와 확률 데이터
 
-### [`Data/BattleData.cs`](./Scripts/Scenes/Battle/Data/BattleData.cs)
+### [`Data/BattleData.cs`](./Data/BattleData.cs)
 > 모든 시스템의 공용 어휘
 
 게임에서 사용되는 모든 enum과 struct를 정의해두었습니다.
@@ -269,7 +269,7 @@ for (int i = 0; i < character.ActionSlotCount; i++)
 즉, 하고싶은건 서로 '참조'하고 있다는 것인데 구조체로 해버리면 그냥 값을 덮어씌우기 때문에 ActionSlot은, 공격자와 대상을 타겟팅하기 위해 반드시 클래스로 선언해야합니다!!!!
 
 
-### [`Data/UnitData.cs`](./Scripts/Scenes/Battle/Data/UnitData.cs)
+### [`Data/UnitData.cs`](./Data/UnitData.cs)
 > SO 유닛 정의 + 성급(Star) 보너스 구조 정의
 
 `UnitState`, `UnitRarity`, `UnitStats`, `SkillBonus`는 이름 그대로의 단순 데이터 묶음이라 설명을 생략합니다. 주목할 부분은 UnitData입니다.
@@ -305,17 +305,17 @@ SO는 유니티 Native 데이터 컨테이너입니다. 주로 게임 내에서 
 앞서 말하긴했지만, 여기에서 캐릭터의 성급에 따라 스킬 해금이 가능하도록 설계했습니다. 즉, 유닛 데이터에 이렇게 3성까지의 데이터들을 일괄적으로 담아서, 성급에 맞춰 하나하나 전부 만들지 않고 하나의 캐릭터 데이터만을 사용해서 수정과 검토가 가능하게, 디자이너와 QA에서 쉽게 접근 가능하도록 설계했습니다.
 
 
-### [`Data/UnitDatabase.cs`](./Scripts/Scenes/Battle/Data/UnitDatabase.cs)
+### [`Data/UnitDatabase.cs`](./Data/UnitDatabase.cs)
 > 희귀도별 풀링
 
 UnitData를 받아서 초기화합니다. 미리 만들어둔 캐릭터 SO들을 할당합니다. 여기서 사용하는 UnitDatabase는 인게임에서 유닛을 참조하는데도 사용하고, Shop에서 Unit 개별의 레어도에 따라 등장 확률을 조절하기도 합니다.
 
-### [`Data/ShopLevelProbability.cs`](./Scripts/Scenes/Battle/Data/ShopLevelProbability.cs)
+### [`Data/ShopLevelProbability.cs`](./Data/ShopLevelProbability.cs)
 > 상점 확률 데이터
 
 상점에 레벨에 따라 레어도별 유닛의 출현 정도를 나타냅니다.
 
-### [`Data/StageData.cs`](./Scripts/Scenes/Battle/Data/StageData.cs)
+### [`Data/StageData.cs`](./Data/StageData.cs)
 > 스테이지 데이터
 
 게임 스테이지 데이터입니다. 스테이지에 따라 적의 정보와 그 적의 성급을 할당할 수 있습니다.
@@ -323,7 +323,7 @@ UnitData를 받아서 초기화합니다. 미리 만들어둔 캐릭터 SO들을
 ## Chapter 3. 엔티티 계층 설계
 > 캐릭터, 적, 플레이어 정의
 
-### [`Entity/Character.cs`](./Scripts/Scenes/Battle/Entity/Character.cs)
+### [`Entity/Character.cs`](./Entity/Character.cs)
 > 핵심 베이스 클래스(스탯·코인·UI·애니메이션)
 
 캐릭터는 기본적인 정보들을 담고있습니다. 직관적으로 알 수 있는 요소들 말고, 따로 설정한 프로퍼티들에 대해서 설명하겠습니다.
@@ -468,12 +468,12 @@ UnitData를 받아서 초기화합니다. 미리 만들어둔 캐릭터 SO들을
 - `UpdateCoinUI`: 코인의 시각적 UI를 조절합니다. CoinResolver에서 코인 관련 로직을 수행하고 이 메서드로 Update된 코인의 정보를 전송합니다. 코인은 현재 1개 ~ 5개로 하드코딩 되어있습니다. 이에 맞춰서 코인 개수에 맞게 유동적으로 사용하고 있는데, 최근 출시한 인격인 검지아비 이상의 `Furioso-Replica`같은 스킬을 보면 이 코인도 유동적으로 생성되면서 다중 타겟 선택 가능한 형태로 확장하고 싶습니다.
 - `OnDrawGizmosSelected`: 캐릭터의 `CombatRange`를 시각적으로 표현합니다. 디버깅용으로 사용하며, 각 캐릭터별로 지나치게 겹치는걸 방지하기 위해, 이걸 시각적으로 확인하고 구분 가능하게 사용하고 있습니다. 추후에는 각 애니메이션 별로 해당 부분을 조절하게 확장하여 손을 크게 휘두르거나 무기를 사용하거나 하는 등 '반드시 이만큼은 벌어져야 하는 정도'를 계산 가능하게 확장하고 싶습니다.
 
-### [`Entity/Enemy.cs`](./Scripts/Scenes/Battle/Entity/Enemy.cs)
+### [`Entity/Enemy.cs`](./Entity/Enemy.cs)
 > 상속 + 오버라이드(환상체 느낌으로, 정신력 없는 확률 고정)
 - Character를 상속받는 적입니다. 코인은 무조건 50% 확률로 고정하기 위해 `ChangeSp`를 오버라이드하며 내부를 비워두었습니다. 나머지 공격, 액션 등은 확장을 위해 남겨두었습니다.
 
 
-### [`Entity/Player.cs`](./Scripts/Scenes/Battle/Entity/Player.cs)
+### [`Entity/Player.cs`](./Entity/Player.cs)
 > 상속 + 드래그 앤 드롭 입력 처리
 - 전투 상태 여부를 이벤트로 처리하여, 전투 상태인지 아닌지 브로드캐스팅 합니다.
 ```csharp
@@ -567,7 +567,7 @@ uiEndWorldPos.z = _canvasRect.position.z;
 
 - 이제 위치를 바꾸었으니, 타겟팅 화살표를 그려야합니다. 여기에서, 이 프로젝트 진행하며 '이걸 꼭 해야해? 그냥 씨 때려 칠까...' 를 많이 고민했던 부분입니다. 더럽게 어렵고, 처음에는 슬더슬2처럼 쭈왁 꺾이는 이쁜 화살표랑 선 구현하고 싶었는데 일직선으로 타협봤습니다.
 
-### [`Combat/TargetingArrowController.cs`](./Scripts/Scenes/Battle/Combat/TargetingArrowController.cs)
+### [`Combat/TargetingArrowController.cs`](./Combat/TargetingArrowController.cs)
 - 선을 만드는건 쉽게 생각했습니다.
   1. 마우스 클릭을 한다. 이때, 마우스 포인터를 변경한다. (림버스 인게임처럼 둥근 모양으로 교체)
   2. 클릭한 부분에 `시작점`을 남겨두고 거기에서부터 선을 생성한다. `끝점`은 언제나 마우스 포인터로 한다.
@@ -647,7 +647,7 @@ uiEndWorldPos.z = _canvasRect.position.z;
 
 그럼 반대로, 핸드에서 필드로 이동할때는 어떻게 되느냐? 바로 다음 코드에서 볼 수 있습니다.
 
-### [`Entity/HandSlotUI.cs`](./Scripts/Scenes/Battle/Entity/HandSlotUI.cs)
+### [`Entity/HandSlotUI.cs`](./Entity/HandSlotUI.cs)
 
 이제 3D 공간에 존재하는 유닛을 UI 평면으로 끌고왔으니, 반대도 해봐야합니다. 조립은 해체의 역순, 해체는 조립의 역순이므로 상대적으로 쉽게(?) 구현했습니다.
 
@@ -685,7 +685,7 @@ if (Physics.Raycast(worldRay, out var hit) && hit.collider.CompareTag("FieldZone
 ## Chapter 4. 스킬 실행 전략 (Strategy 패턴)
 > 코인 토스 및 스킬 실행
 
-### [`Logic/CoinActionLogic.cs`](./Scripts/Scenes/Battle/Logic/CoinActionLogic.cs)
+### [`Logic/CoinActionLogic.cs`](./Logic/CoinActionLogic.cs)
 > Custom CoinAction을 위한 추상 클래스
 
 - SO 형태의 추상 클래스입니다. 림버스 전투를 보면, 각 코인이 고유의 애니메이션과 공격 로직을 가지고 있습니다. 어떤건 다단히트기도 하고, 어떤건 묵직한 한방(아아 뫼르소...)을 내기도 합니다. 그런데 if문 무한 중첩으로 구현하면... 생각만해도 아찔해져서 SO 형태로, '끼워넣기'가 가능하게 구현해보았습니다. `BattleManager`(아래에서 더 자세히 다룹니다!!!)에서는 결론적으로, 코인 앞뒷면을 판정하고 해당 코인의 총 데미지를 전달합니다. 가령, 합이 끝나서 각 코인마다 데미지를 주어야 하는 시점이 오면, 해당 코인을 토스하고 -> 앞뒷면 가중치 계산하고 -> 캐릭터 스탯이랑 스킬 데미지 계산해서 -> 총 데미지를 여기로 전달합니다. 그러면 이제 그 총 데미지를 다단히트로 할건지, 아니면 묵직한 한방을 때릴껀지, 이러면서 개쩌는 애니메이션을 출력할건지 등을 결정하는 곳이 바로 이 CoinActionLogic입니다.
@@ -719,7 +719,7 @@ if (Physics.Raycast(worldRay, out var hit) && hit.collider.CompareTag("FieldZone
 
 이 코인 액션 로직 자체는 아래에서 설명할 `StandardHitLogic`과 `EscalatingHitLogic`을 위한 추상클래스로만 생각하면 됩니다!
 
-### [`Core/CoinResolver.cs`](./Scripts/Scenes/Battle/Core/CoinResolver.cs)
+### [`Core/CoinResolver.cs`](./Core/CoinResolver.cs)
 > 스킬 코인의 상태 조회·파괴·토스를 담당하는 순수 헬퍼 
 
 전투의 흐름 자체는 `BattleManager`가 담당하지만, 개별적인 스킬은 이 `CoinResolver`가 담당합니다. 그런데 생각을 해보면, static은 메모리에 하나만 존재하는데, 여러 곳에서 동시에 코인 상태를 조회하고 파괴하고 토스하면 꼬이지 않을까? 라는 생각을 할 수 있습니다.
@@ -747,7 +747,7 @@ public static IEnumerator TossSlotCoinsRoutine(ActionSlot slot, float totalDurat
 
 다시 본론으로 돌아와서 `CoinResolver`의 역할은 간단합니다. 파괴 안된 코인을 세어주거나, 코인을 모.분 해버리거나 코인 하나를 굴리거나, 코인이 여러개일 경우 각 코인을 돌리는 로직을 돌리거나 그리고 마지막으로 코인이 뒤집힐 확률을 구하거나입니다. 마지막에 있는 `CalculateSlotProbability`는 간단하게 `y = ax + b` 꼴의 함수를 이용해서 정신력 비례 앞면 노출 확률을 설정한겁니다. 그 아래에는 만일 앞면 혹은 뒷면을 강제해야 하는 경우 강제할 수 있도록 추가 함수도 구현해두었습니다. (여기선 사용 안합니다!)
 
-### [`Logic/StandardHitLogic.cs`](./Scripts/Scenes/Battle/Logic/StandardHitLogic.cs)
+### [`Logic/StandardHitLogic.cs`](./Logic/StandardHitLogic.cs)
 > 단순 구현체 1
 
 가장 기본이 되는 타격 로직입니다. 넘겨받은 `totalDamage`를 코인의 타수(`hitCount`)만큼 균등하게 나눕니다. (이 `totalDamage`도 `totalDamage`를 두고 균등하게 나눈 뒤, Random으로 구분해서 데미지를 분산시키는 등 너무 균등하지 않게 확장도 염두에 두고 있습니다.) 또한 **넉백**이 존재합니다. 여기서 일전에 말한 무게가 사용됩니다.
@@ -786,17 +786,17 @@ if (pushDirection == Vector3.zero) pushDirection = Vector3.forward;
   - 물론, 부딪히자마자 멀리 쭈우욱 밀려나는 큰 넉백은 `BattleManager`의 `CalculateKnockback`이 부드러운 코루틴으로 담당하고, 여기 `StandardHitLogic`에서는 타격 순간의 '미세한 덜컥거림'을 담당하도록 완벽하게 역할을 분리했습니다.
   - 그리고 당연히, 대상이 움직일 수 없는 환상체라면 움직이면 안되므로 `target.IsImmovable` 여부를 검토합니다.
 
-### [`Logic/EscalatingHitLogic.cs`](./Scripts/Scenes/Battle/Logic/EscalatingHitLogic.cs)
+### [`Logic/EscalatingHitLogic.cs`](./Logic/EscalatingHitLogic.cs)
 > 단순 구현체 2
 
 - 여긴 뒤로 갈수록 대미지가 강해지는 로직을 구현했습니다. 대미지 분배 (가중치)를 통해 타수가 진행될수록 대미지 배율이 증가합니다. 예를 들어 3타 스킬이라면 가중치 총합은 6 (1+2+3)이 됩니다. 1타는 전체 대미지의 1/6, 2타는 2/6, 마지막 3타는 3/6(절반)의 묵직한 대미지를 꽂아 넣습니다.
 
-### [`Logic/SpearAttackLogic.cs`](./Scripts/Scenes/Battle/Logic/SpearAttackLogic.cs)
+### [`Logic/SpearAttackLogic.cs`](./Logic/SpearAttackLogic.cs)
 > 투사체 기반 복합 구현제 (전체 조율)
 
 - 여기서는 Attacker의 Rarity에 따라 소환할 창의 개수를 결정합니다. 그러면 `SpawnSpears`를 통해 창들을 머리 위(`yOffset`) 주변 반경(`radius`)에 원형으로 소환합니다. 그리고 이 창들을 한 번에 쏘지 않고 fireDelay 간격을 두고 순차적으로(따다닥) 발사시킵니다. 발사음과 피격음도 순차적으로 다른 소리(`sequentialAttackSounds`)를 내도록 세팅할 수 있습니다.
 
-### [`Logic/SpearProjectile.cs`](./Scripts/Scenes/Battle/Logic/SpearProjectile.cs)
+### [`Logic/SpearProjectile.cs`](./Logic/SpearProjectile.cs)
 > 투사체 기반 복합 구현체 (개별 동작)
 
 - 창들이 스폰되면 공격자 주위를 빙글빙글 돌다가 `Fire` 명령이 떨어지면 타임스케일을 무시(`Time.unscaledDeltaTime`)하고 날아갑니다. 이는 스킬 3은 주변 슬로모션 적용 + 주변 인물들 opacity 조절이 진행되므로 이 투사체는 반드시 타임 스케일을 무시해야 똑바로 작동합니다. 아니면 느려진 시간 속에서 함께 느려지므로.......
@@ -836,7 +836,7 @@ if (pushDirection == Vector3.zero) pushDirection = Vector3.forward;
       2. 일방 줘팸: 접근 → `ExecuteMultiHitAttack` → 타겟 넉백.
    3. 코인을 순서대로: `CoinResolver.TossSingleCoin`으로 위력 누적 → 공격음 → 공격 모션(대시 여부) → vfx → `customLogic` 있으면 위임 / 없으면 기본 타격 루프(TakeDamage 반복).
 
-### [`Core/TargetingResolver.cs`](./Scripts/Scenes/Battle/Core/TargetingResolver.cs)
+### [`Core/TargetingResolver.cs`](./Core/TargetingResolver.cs)
 > 속도 기반 타겟 매칭 알고리즘(합/일방공격 판정)
 
 이번 턴에 누가 누구를 때릴지(헉), 그리고 해당 공격이 합(Clash!)인지 일방 공격인지 결정합니다.
@@ -971,7 +971,7 @@ var finalBattles = new List<BattleMatchup>();
 
 `SortSlotsBySpeed`: 플레이어 슬롯들을 속도 순서로 정렬합니다. ResolveTurn에서 편하게 사용하기 위해 만들었습니다. 만약에 속도가 같다면 캐릭터의 최대 속도(maxSpeed)가 더 높은 쪽에 우선권을 주었습니다. 이렇게 신경쓴 이유는, **림버스에서도 이따금 캐릭터의 스킬 슬롯이 2개 이상 연달아 진행될 때 어떤 스킬은 먼저 진행되고 어떤 스킬은 나중에 진행되는게 규칙성이 보일랑말랑해서 한번 탐구해보고자 디테일하게 구현해보았습니다.**
 
-### [`Combat/BattleActionController.cs`](./Scripts/Scenes/Battle/Combat/BattleActionController.cs)
+### [`Combat/BattleActionController.cs`](./Combat/BattleActionController.cs)
 > 충돌 예측·넉백 물리 계산
 
 허공에 주먹질을 하고 무기를 휘두르기 위해서는 무공의 경지가 고강해서, 완숙한 절정 이상의 경지에 올라 내공을 실어 날리거나 무기의 길이가 매우매우매우 길어야합니다. 아직 수감자들의 무공 수위가 그정도에 오르지 못했으므로, 그리고 아무리 긴 무기가 있다고 하더라도 일단 붙어야 하므로, 충돌을 예측하고 부딪혔을 때 넉백이 있어야합니다. 그래야, 게임이 더 찰져질것입니다.
@@ -1140,7 +1140,7 @@ public IEnumerator ExecuteMovement(Transform target, Vector3 destination, float 
    6. BattleManager에서 currentKnockbackDuration에 0.4f (DecayFactor) 등을 곱해 시간을 깎아버림.
 결과: 루프를 반복할수록 거리는 좁아지고, 시간은 짧아지며, 속도는 빨라져서 림버스 합처럼 "챙! 챙! 챙채채챙!!" 하고 미친 듯이 합을 겨루게 됩니다.
 
-### [`Core/BattleManager.cs`](./Scripts/Scenes/Battle/Core/BattleManager.cs)
+### [`Core/BattleManager.cs`](./Core/BattleManager.cs)
 > 전투 시퀀스 코루틴 전체 총괄 + 포커스 슬로모션 연출
 
 이 프로젝트의 백미인, `BattleManager`입니다. `BattleManager`는 `TargetingResolver`에서 최종적으로 나온 `BattleMatchup`을 받아와서 실질적인 전투 코루틴들을 처리합니다.
@@ -1237,7 +1237,7 @@ else
 
 이 세가지 요소 구현에 초점을 두었습니다.
 
-### [`Cameras/CameraTracker.cs`](./Scripts/Scenes/Battle/Cameras/CameraTracker.cs)
+### [`Cameras/CameraTracker.cs`](./Cameras/CameraTracker.cs)
 > 타겟 Bounds·중심점 추적
 
 카메라 트래커는 오직 중심점(`CurrentCenter`)과 화면 크기(`CurrentTargetSize`)만 계산하는 두뇌 역할만 담당합니다. 그래서 이 스크립트는 특히, 다른 스크립트에서 값을 가져다가 쓰기 전에 로딩시킬 필요가 있었습니다.
@@ -1257,7 +1257,7 @@ CurrentTargetSize = maxSize > 0.1f ? maxSize : 5f;
 
 즉, 이 `CameraTracker`는 카메라를 움직이지 않고, 중심점과 크기만 게산하는 계산기입니다.
 
-### [`Cameras/CameraController.cs`](./Scripts/Scenes/Battle/Cameras/CameraController.cs)
+### [`Cameras/CameraController.cs`](./Cameras/CameraController.cs)
 > FOV 기반 동적 줌 거리 계산
 
 Tracker가 계산을 했다면, `CameraController`가 이름값을 할 차례입니다. 
@@ -1288,12 +1288,12 @@ Tracker가 계산을 했다면, `CameraController`가 이름값을 할 차례입
 
 해서 이를 통해 위치는 `Vector3.SmoothDamp`, 회전은 `Quaternion.Slerp`으로 부드럽게 이동하고, 둘 다 `Time.unscaledDeltaTime` 사용합니다. 이는 당연하게도 포커스 슬로모션(`timeScale 0.05`) 중에도 카메라는 정상 속도로 움직여야 연출이 맛갈나기 때문입니다. 
 
-### [`Cameras/CameraMathVisualizer.cs`](./Scripts/Scenes/Battle/Cameras/CameraMathVisualizer.cs)
+### [`Cameras/CameraMathVisualizer.cs`](./Cameras/CameraMathVisualizer.cs)
 > 에디터 기즈모 디버깅 툴
 
 [ExecuteInEditMode] + OnDrawGizmos — 플레이하지 않고도 씬 뷰에서 카메라 수학을 눈으로 보는 도구입니다. 각 진영 중심점(구), Bounds(와이어큐브), 카메라 절두체(frustum) 라인을 그려줍니다. 이건 앞선 `CameraController` 식을 공부할 때 사용했습니다. 아무래도 숫자로 계산하는것도 좋지만 실제 눈으로 보이는 것 만큼 좋은건 없으니 이렇게 짜보았습니다.
 
-### [`Cameras/Billboard.cs`](./Scripts/Scenes/Battle/Cameras/Billboard.cs)
+### [`Cameras/Billboard.cs`](./Cameras/Billboard.cs)
 > 2D 스프라이트가 3D 월드에 존재하기 위해 반드시반드시반드시 필요한 빌보드 기법
 
 2D 스프라이트나 UI 캔버스는 수학적으로 두께가 0인 완벽한 평면입니다. 해서 만약에 3D 공간에서 카메라가 호오오옥시나 캐릭터의 옆으로 이동하거나 회전했을 때 이 평면이 카메라를 따라 돌지 않으면 너무나 얇은 그들의 실체를 마주하게 됩니다(무섭따). 사실, 언제나 앞면만 보여주니깐 큰 문제는 없지만 만에 하나 라는 경우도 있으니 부착해두었습니다.
@@ -1446,7 +1446,7 @@ public class ListProfilingTest : MonoBehaviour
 
 이렇게 사실 이렇게까지 프레임마다 10000씩 반복은 하지 않겠지만, 이렇게 하나하나 잡을 수 있는 요소는 잡아야 최적화가 된다고 생각하고, 진행해보았습니다.
 
-### [`Board/MergeManager.cs`](./Scripts/Scenes/Battle/Board/MergeManager.cs)
+### [`Board/MergeManager.cs`](./Board/MergeManager.cs)
 > 3개 합성 + 전투 중 큐 처리
 
 오토체스 류 게임의 특징을 그대로 살리고자 노력했습니다.
@@ -1465,35 +1465,35 @@ public class ListProfilingTest : MonoBehaviour
 
 [전투 영상]()
 
-### [`UI/CardUI.cs`](./Scripts/Scenes/Battle/UI/CardUI.cs)
+### [`UI/CardUI.cs`](./UI/CardUI.cs)
 > 상점에 나타나는 카드 UI
 
-### [`UI/ShopUI.cs`](./Scripts/Scenes/Battle/UI/ShopUI.cs)
+### [`UI/ShopUI.cs`](./UI/ShopUI.cs)
 > 상점 UI
 
-### [`UI/HandSlotUI.cs`](./Scripts/Scenes/Battle/UI/HandSlotUI.cs)
+### [`UI/HandSlotUI.cs`](./UI/HandSlotUI.cs)
 > 구매한 유닛들이 보관되는 HandSlot UI
 
-### [`UI/SellZoneUI.cs`](./Scripts/Scenes/Battle/UI/SellZoneUI.cs)
+### [`UI/SellZoneUI.cs`](./UI/SellZoneUI.cs)
 > 판매존 UI
 
-### [`UI/TopPanelUI.cs`](./Scripts/Scenes/Battle/UI/TopPanelUI.cs)
+### [`UI/TopPanelUI.cs`](./UI/TopPanelUI.cs)
 > 스테이지 정보, 배틀 시작 버튼이 위치한 TopPanel UI
 
-### [`UI/ToolTipUI.cs`](./Scripts/Scenes/Battle/UI/ToolTipUI.cs)
+### [`UI/ToolTipUI.cs`](./UI/ToolTipUI.cs)
 > 마우스 호버시 나타날 ToolTipUI
 
-### [`UI/GameOverUI.cs`](./Scripts/Scenes/Battle/UI/GameOverUI.cs)
+### [`UI/GameOverUI.cs`](./UI/GameOverUI.cs)
 > 게임 종료를 관리하는 UI
 
 
 ## Chapter 9. 마무리
 > 최종적으로 마무리합니다. (마참내!)
 
-### [`Controller/BattleSceneUIController.cs`](./Scripts/Scenes/Battle/Controller/BattleSceneUIController.cs)
+### [`Controller/BattleSceneUIController.cs`](./Controller/BattleSceneUIController.cs)
 > 씬 연출 및 페이드
 
 - 앞선 씬들과 마찬자기로 단순히 씬의 진입과 퇴장 연출만을 관리합니다.
 
-### [`Core/BattleDirector.cs`](./Scripts/Scenes/Battle/Core/BattleDirector.cs)
+### [`Core/BattleDirector.cs`](./Core/BattleDirector.cs)
 > CheckTurnResult의 작동 방식
