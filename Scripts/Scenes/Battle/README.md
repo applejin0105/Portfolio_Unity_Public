@@ -1463,7 +1463,7 @@ public class ListProfilingTest : MonoBehaviour
 > 앞선 로직들이 실제로 연결된 UI
 > UI는 인스펙터 할당 그리고 프리팹 생성 및 조율이므로 별도의 설명은 첨부하지 않겠습니다.
 
-[전투 영상]()
+![전투 영상](https://youtu.be/t6fYwb53-BY)
 
 ### [`UI/CardUI.cs`](./UI/CardUI.cs)
 > 상점에 나타나는 카드 UI
