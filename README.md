@@ -4,7 +4,13 @@
 
 React로 만든 홈페이지를 그대로 유니티의 기술을 담아 제작한 프로젝트입니다. 홈페이지와 유니티 각각의 차이는 다음 유튜브 영상에서 보실 수 있습니다.
 
+## React
 
+[![React Version](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID)
+
+## Unity
+
+[![Unity Version](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID)
 
 # Components
 
