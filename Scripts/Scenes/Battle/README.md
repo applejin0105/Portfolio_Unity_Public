@@ -37,68 +37,60 @@ Chapter 6. 카메라 연출
 
 ## 목차
 ### Battle Scene
-* **개요**
-* **목표**
-* **게임 설계**
+* [개요](#개요)
+* [목표](#목표)
+* [게임 설계](#게임-설계)
 
 ---
 
-### Chapter 1. 프로젝트 조망
-* [`Manager/BattleSceneManager.cs`](./Manager/BattleSceneManager.cs): 씬 진입점
-* [`Core/BattleDirector.cs`](./Core/BattleDirector.cs): 게임 루프 관리 (라운드·턴·스폰·경제·게임오버)
-
-### Chapter 2. 데이터 토대 및 용어 사전 정의
-* [`Data/BattleData.cs`](./Data/BattleData.cs): 모든 시스템의 공용 어휘 및 구조체
-* [`Data/UnitData.cs`](./Data/UnitData.cs): SO 유닛 정의 및 성급(Star) 보너스 구조 정의
-* [`Data/UnitDatabase.cs`](./Data/UnitDatabase.cs): 희귀도별 풀링
-* [`Data/ShopLevelProbability.cs`](./Data/ShopLevelProbability.cs): 상점 확률 데이터
-* [`Data/StageData.cs`](./Data/StageData.cs): 스테이지 데이터
-
-### Chapter 3. 엔티티 계층 설계
-* [`Entity/Character.cs`](./Entity/Character.cs): 핵심 베이스 클래스 (스탯·코인·UI·애니메이션)
-* [`Entity/Enemy.cs`](./Entity/Enemy.cs): 상속 및 오버라이드
-* [`Entity/Player.cs`](./Entity/Player.cs): 상속 및 드래그 앤 드롭 입력 처리
-* [`Combat/TargetingArrowController.cs`](./Combat/TargetingArrowController.cs): 3D 선 긋기 툴 기반 타겟팅 화살표 제어
-* [`Entity/HandSlotUI.cs`](./Entity/HandSlotUI.cs): UI 평면과 3D 월드 간의 상호작용 처리
-
-### Chapter 4. 스킬 실행 전략 (Strategy 패턴)
-* [`Logic/CoinActionLogic.cs`](./Logic/CoinActionLogic.cs): Custom CoinAction을 위한 추상 클래스
-* [`Core/CoinResolver.cs`](./Core/CoinResolver.cs): 스킬 코인의 상태 조회·파괴·토스를 담당하는 순수 헬퍼
-* [`Logic/StandardHitLogic.cs`](./Logic/StandardHitLogic.cs): 단순 구현체 1 (균등 분배 및 넉백)
-* [`Logic/EscalatingHitLogic.cs`](./Logic/EscalatingHitLogic.cs): 단순 구현체 2 (점진적 대미지 증가)
-* [`Logic/SpearAttackLogic.cs`](./Logic/SpearAttackLogic.cs): 투사체 기반 복합 구현제 (전체 조율)
-* [`Logic/SpearProjectile.cs`](./Logic/SpearProjectile.cs): 투사체 기반 복합 구현체 (개별 동작)
-
-### Chapter 5. 전투 코어
-* [`Core/TargetingResolver.cs`](./Core/TargetingResolver.cs): 속도 기반 타겟 매칭 알고리즘 (합/일방공격 판정)
-* [`Combat/BattleActionController.cs`](./Combat/BattleActionController.cs): 충돌 예측 및 넉백 물리 계산
-* [`Core/BattleManager.cs`](./Core/BattleManager.cs): 전투 시퀀스 코루틴 전체 총괄 및 포커스 슬로모션 연출
-
-### Chapter 6. 카메라 연출
-* [`Cameras/CameraTracker.cs`](./Cameras/CameraTracker.cs): 타겟 Bounds 및 중심점 추적
-* [`Cameras/CameraController.cs`](./Cameras/CameraController.cs): FOV 기반 동적 줌 거리 계산
-* [`Cameras/CameraMathVisualizer.cs`](./Cameras/CameraMathVisualizer.cs): 에디터 기즈모 디버깅 툴
-* [`Cameras/Billboard.cs`](./Cameras/Billboard.cs): 2D 스프라이트가 3D 월드에 존재하기 위한 빌보드 기법
-
-### Chapter 7. 플레이 필드 & 경제 시스템
-* [`Shop/PlayerManager.cs`](./Shop/PlayerManager.cs): 코스트 시스템 관리
-* [`Shop/ShopManager.cs`](./Shop/ShopManager.cs): 상점 리롤·구매·업그레이드
-* [`Board/HandManager.cs`](./Board/HandManager.cs): 최대 10개의 핸드 관리
-* [`Board/FieldManager.cs`](./Board/FieldManager.cs): 필드 배치 및 딕셔너리 기반 슬롯 관리
-* [`Board/MergeManager.cs`](./Board/MergeManager.cs): 3개 합성 및 전투 중 큐 처리
-
-### Chapter 8. UI 계층
-* [`UI/CardUI.cs`](./UI/CardUI.cs): 상점에 나타나는 카드 UI
-* [`UI/ShopUI.cs`](./UI/ShopUI.cs): 상점 UI
-* [`UI/HandSlotUI.cs`](./UI/HandSlotUI.cs): 구매한 유닛 보관 슬롯 UI
-* [`UI/SellZoneUI.cs`](./UI/SellZoneUI.cs): 판매존 UI
-* [`UI/TopPanelUI.cs`](./UI/TopPanelUI.cs): 스테이지 정보 및 배틀 시작 버튼 UI
-* [`UI/ToolTipUI.cs`](./UI/ToolTipUI.cs): 마우스 호버 툴팁 UI
-* [`UI/GameOverUI.cs`](./UI/GameOverUI.cs): 게임 종료 관리 UI
-
-### Chapter 9. 마무리
-* [`Controller/BattleSceneUIController.cs`](./Controller/BattleSceneUIController.cs): 씬 연출 및 페이드 관리
-* [`Core/BattleDirector.cs`](./Core/BattleDirector.cs): 최종 게임 루프 통제 및 경제/페널티 시스템 적용
+* [Chapter 1. 프로젝트 조망](#chapter-1-프로젝트-조망)
+    * [`Manager/BattleSceneManager.cs`](./Manager/BattleSceneManager.cs): 씬 진입점
+    * [`Core/BattleDirector.cs`](./Core/BattleDirector.cs): 게임 루프 관리 (라운드·턴·스폰·경제·게임오버)
+* [Chapter 2. 데이터 토대 및 용어 사전 정의](#chapter-2-데이터-토대-및-용어-사전-정의)
+    * [`Data/BattleData.cs`](./Data/BattleData.cs): 모든 시스템의 공용 어휘 및 구조체
+    * [`Data/UnitData.cs`](./Data/UnitData.cs): SO 유닛 정의 및 성급(Star) 보너스 구조 정의
+    * [`Data/UnitDatabase.cs`](./Data/UnitDatabase.cs): 희귀도별 풀링
+    * [`Data/ShopLevelProbability.cs`](./Data/ShopLevelProbability.cs): 상점 확률 데이터
+    * [`Data/StageData.cs`](./Data/StageData.cs): 스테이지 데이터
+* [Chapter 3. 엔티티 계층 설계](#chapter-3-엔티티-계층-설계)
+    * [`Entity/Character.cs`](./Entity/Character.cs): 핵심 베이스 클래스 (스탯·코인·UI·애니메이션)
+    * [`Entity/Enemy.cs`](./Entity/Enemy.cs): 상속 및 오버라이드
+    * [`Entity/Player.cs`](./Entity/Player.cs): 상속 및 드래그 앤 드롭 입력 처리
+    * [`Combat/TargetingArrowController.cs`](./Combat/TargetingArrowController.cs): 3D 선 긋기 툴 기반 타겟팅 화살표 제어
+    * [`Entity/HandSlotUI.cs`](./Entity/HandSlotUI.cs): UI 평면과 3D 월드 간의 상호작용 처리
+* [Chapter 4. 스킬 실행 전략 (Strategy 패턴)](#chapter-4-스킬-실행-전략-strategy-패턴)
+    * [`Logic/CoinActionLogic.cs`](./Logic/CoinActionLogic.cs): Custom CoinAction을 위한 추상 클래스
+    * [`Core/CoinResolver.cs`](./Core/CoinResolver.cs): 스킬 코인의 상태 조회·파괴·토스를 담당하는 순수 헬퍼
+    * [`Logic/StandardHitLogic.cs`](./Logic/StandardHitLogic.cs): 단순 구현체 1 (균등 분배 및 넉백)
+    * [`Logic/EscalatingHitLogic.cs`](./Logic/EscalatingHitLogic.cs): 단순 구현체 2 (점진적 대미지 증가)
+    * [`Logic/SpearAttackLogic.cs`](./Logic/SpearAttackLogic.cs): 투사체 기반 복합 구현제 (전체 조율)
+    * [`Logic/SpearProjectile.cs`](./Logic/SpearProjectile.cs): 투사체 기반 복합 구현체 (개별 동작)
+* [Chapter 5. 전투 코어](#chapter-5-전투-코어)
+    * [`Core/TargetingResolver.cs`](./Core/TargetingResolver.cs): 속도 기반 타겟 매칭 알고리즘 (합/일방공격 판정)
+    * [`Combat/BattleActionController.cs`](./Combat/BattleActionController.cs): 충돌 예측 및 넉백 물리 계산
+    * [`Core/BattleManager.cs`](./Core/BattleManager.cs): 전투 시퀀스 코루틴 전체 총괄 및 포커스 슬로모션 연출
+* [Chapter 6. 카메라 연출](#chapter-6-카메라-연출)
+    * [`Cameras/CameraTracker.cs`](./Cameras/CameraTracker.cs): 타겟 Bounds 및 중심점 추적
+    * [`Cameras/CameraController.cs`](./Cameras/CameraController.cs): FOV 기반 동적 줌 거리 계산
+    * [`Cameras/CameraMathVisualizer.cs`](./Cameras/CameraMathVisualizer.cs): 에디터 기즈모 디버깅 툴
+    * [`Cameras/Billboard.cs`](./Cameras/Billboard.cs): 2D 스프라이트가 3D 월드에 존재하기 위한 빌보드 기법
+* [Chapter 7. 플레이 필드 & 경제 시스템](#chapter-7-플레이-필드--경제-시스템)
+    * [`Shop/PlayerManager.cs`](./Shop/PlayerManager.cs): 코스트 시스템 관리
+    * [`Shop/ShopManager.cs`](./Shop/ShopManager.cs): 상점 리롤·구매·업그레이드
+    * [`Board/HandManager.cs`](./Board/HandManager.cs): 최대 10개의 핸드 관리
+    * [`Board/FieldManager.cs`](./Board/FieldManager.cs): 필드 배치 및 딕셔너리 기반 슬롯 관리
+    * [`Board/MergeManager.cs`](./Board/MergeManager.cs): 3개 합성 및 전투 중 큐 처리
+* [Chapter 8. UI 계층](#chapter-8-ui-계층)
+    * [`UI/CardUI.cs`](./UI/CardUI.cs): 상점에 나타나는 카드 UI
+    * [`UI/ShopUI.cs`](./UI/ShopUI.cs): 상점 UI
+    * [`UI/HandSlotUI.cs`](./UI/HandSlotUI.cs): 구매한 유닛 보관 슬롯 UI
+    * [`UI/SellZoneUI.cs`](./UI/SellZoneUI.cs): 판매존 UI
+    * [`UI/TopPanelUI.cs`](./UI/TopPanelUI.cs): 스테이지 정보 및 배틀 시작 버튼 UI
+    * [`UI/ToolTipUI.cs`](./UI/ToolTipUI.cs): 마우스 호버 툴팁 UI
+    * [`UI/GameOverUI.cs`](./UI/GameOverUI.cs): 게임 종료 관리 UI
+* [Chapter 9. 마무리](#chapter-9-마무리)
+    * [`Controller/BattleSceneUIController.cs`](./Controller/BattleSceneUIController.cs): 씬 연출 및 페이드 관리
+    * [`Core/BattleDirector.cs`](./Core/BattleDirector.cs): 최종 게임 루프 통제 및 경제/페널티 시스템 적용
 
 ## 게임 설계
 
