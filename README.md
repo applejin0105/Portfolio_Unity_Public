@@ -6,11 +6,11 @@ React로 만든 홈페이지를 그대로 유니티의 기술을 담아 제작�
 
 ## React
 
-[![React Version](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID)
+[![React Version](https://img.youtube.com/vi/TFC5AXB2qPM/maxresdefault.jpg)](https://youtu.be/TFC5AXB2qPM)
 
 ## Unity
 
-[![Unity Version](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID)
+[![Unity Version](https://img.youtube.com/vi/k-yr_oxbnEc/maxresdefault.jpg)](https://youtu.be/k-yr_oxbnEc)
 
 # Components
 
