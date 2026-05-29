@@ -80,6 +80,9 @@ flowchart TD
     BuyOk2 --> Lobby
     BuyOk3 --> Lobby
     BuyFail2 --> Lobby
+
+    classDef dark fill:#1b1b1b,stroke:#1b1b1b,color:#fff;
+    class Start,Init,Lobby,Shop,Cost,HandSpace,BuyFail1,BuyOk1,Merge1,Merge2,BuyOk2,BuyOk3,BuyFail2,Battle,Speed,Define,CombatStart,Survive,End,MergeDef dark;
 ```
 
 처음에는 위 그림과 같이 흐름을 잡아보았습니다. 지금의 실력으로 혼자 구현할 수 있는, 그리고 제가 시스템에서 눈여겨봤던 부분을 중심으로 코드를 구현해보고 싶었습니다.
