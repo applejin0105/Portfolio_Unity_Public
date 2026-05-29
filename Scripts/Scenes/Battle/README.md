@@ -44,17 +44,17 @@
 이 즈음 '플러리'라는 하스스톤 스트리머의 방송을 몇번 보며, 고등학교때 했던 하스스톤이 정말 많이 변하기도 했고 거기에 지금 제작중인 'Cultist'라는 게임이 카드게임이므로, 림버스 컴퍼니 + 카드게임을 생각해보았습니다. 가급적이면 림버스 컴퍼니의 전투나 모션, 백엔드를 일정 부분 구현해보면서 제작중인 게임에 사용할 요소들을 미리 공부해보고 싶었습니다. 그래서 고민을 하던 중, 하스스톤의 전장과 같은 오토체스 형식에 림버스 컴퍼니의, 제가 가장 자주 사용하는 방식인 승률->딸깍 방식을 결합해서 **림토체스**를 만들기로 결정하였습니다. 지금부터 이 배틀 시스템을 구현하면서, 코드를 어떻게 짯는지 설명하겠습니다.
 
 ```mermaid
+%%{init: {'flowchart': {'curve': 'step', 'nodeSpacing': 45, 'rankSpacing': 55}}}%%
 flowchart TD
-    Start((게임 시작)) --> Init["Init<br/>UI 및 필드 초기화 (초기 적 설정, 상점 기본값 셋팅)"]
+    Start((게임 시작)) --> Init["Init<br/>UI 및 필드 초기화<br/>(초기 적 설정, 상점 기본값 셋팅)"]
     Init --> Lobby["메인 로비 대기 상태"]
 
-    %% 합성탐색 정의 (범례)
-    MergeDef[["합성탐색<br/>핸드와 필드에 동일한 ID와 성급을 가진 카드가 3장 이상인가?"]]
+    MergeDef[["합성탐색<br/>핸드와 필드에 동일한 ID와<br/>성급을 가진 카드가 3장 이상인가?"]]
 
-    %% ── 좌측: 상점 구매 흐름 ──
-    Lobby --> Shop{상점에서 카드를 구입}
-    Shop --> Cost{코스트가 충분한가?}
-    Cost -- Yes --> HandSpace{핸드에 남은 공간이 있는가?}
+    %% ── 좌측: 상점 구매 ──
+    Lobby --> Shop{상점에서<br/>카드를 구입}
+    Shop --> Cost{코스트가<br/>충분한가?}
+    Cost -- Yes --> HandSpace{핸드에 남은<br/>공간이 있는가?}
     Cost -- No --> BuyFail1["구입 실패"]
 
     HandSpace -- Yes --> BuyOk1["구입 성공"]
@@ -66,22 +66,22 @@ flowchart TD
     Merge1 -- Yes --> BuyOk3["구입 성공"]
     Merge1 -- No --> BuyFail2["구입 실패"]
 
-    %% ── 우측: 전투 흐름 ──
+    %% ── 우측: 전투 ──
     Lobby --> Battle{Battle 시작}
-    Battle --> Speed["아군 캐릭터 및 적 캐릭터의 속도를 랜덤 값으로 결정"]
-    Speed --> Define["결정된 속도를 기준으로, 합과 일반 공격을 정의"]
+    Battle --> Speed["아군 캐릭터 및 적 캐릭터의<br/>속도를 랜덤 값으로 결정"]
+    Speed --> Define["결정된 속도를 기준으로,<br/>합과 일반 공격을 정의"]
     Define --> CombatStart["전투 시작"]
-    CombatStart --> Survive{살아남은 아군 캐릭터가 있는가?}
+    CombatStart --> Survive{살아남은 아군<br/>캐릭터가 있는가?}
     Survive -- Yes --> Lobby
     Survive -- No --> End((게임 종료))
 
-    %% ── 메인 로비로 복귀 ──
+    %% ── 로비 복귀 ──
     BuyFail1 --> Lobby
     BuyOk2 --> Lobby
     BuyOk3 --> Lobby
     BuyFail2 --> Lobby
 
-    classDef dark fill:#1b1b1b,stroke:#1b1b1b,color:#fff;
+    classDef dark fill:#1b1b1b,stroke:#000,stroke-width:1px,color:#fff;
     class Start,Init,Lobby,Shop,Cost,HandSpace,BuyFail1,BuyOk1,Merge1,Merge2,BuyOk2,BuyOk3,BuyFail2,Battle,Speed,Define,CombatStart,Survive,End,MergeDef dark;
 ```
 
