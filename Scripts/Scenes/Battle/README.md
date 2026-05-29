@@ -6,6 +6,26 @@
 <img width="800" height="442" alt="Battle" src="https://github.com/user-attachments/assets/1568ff3d-bb7c-497f-b8b2-824a7630e3d6" />
 
 
+## 코드 열람 순서
+
+이 문서는 **Chapter 1 → 9 순서대로** 읽으면 게임을 만든 과정을 그대로 따라갈 수 있게 구성했습니다. 챕터 제목이나 코드 이름을 누르면 깃의 해당 위치로 바로 이동합니다.
+
+시간이 없다면 아래 표에서 **(핵심)** 으로 표시한 Chapter 3~6 부터 보셔도 됩니다.
+
+| 순서 | 챕터 | 내용 |
+|:---:|---|---|
+| 1 | [프로젝트 조망](#chapter-1-프로젝트-조망) | 씬 진입점과 게임 루프(BattleDirector)로 전체 그림 잡기 |
+| 2 | [데이터 토대](#chapter-2-데이터-토대-및-용어-사전-정의) | 모든 시스템이 공유하는 enum · struct · ScriptableObject |
+| 3 | [엔티티 계층 설계](#chapter-3-엔티티-계층-설계) **(핵심)** | Character → Enemy / Player 상속 구조와 드래그 앤 드롭 |
+| 4 | [스킬 실행 전략](#chapter-4-스킬-실행-전략-strategy-패턴) **(핵심)** | Strategy 패턴으로 분리한 코인 · 스킬 실행 |
+| 5 | [전투 코어](#chapter-5-전투-코어) **(핵심)** | 속도 기반 타겟팅, 충돌 · 넉백 물리, 전투 시퀀스 총괄 |
+| 6 | [카메라 연출](#chapter-6-카메라-연출) **(핵심)** | 2.5D 카메라 추적 · 동적 줌 · 빌보드 |
+| 7 | [플레이 필드 & 경제](#chapter-7-플레이-필드--경제-시스템) | 상점 · 핸드 · 필드 · 합성 등 오토체스 시스템 |
+| 8 | [UI 계층](#chapter-8-ui-계층) | 위 로직이 실제로 연결된 UI |
+| 9 | [마무리](#chapter-9-마무리) | 게임 루프 · 경제 · 소프트락 방지를 BattleDirector로 총정리 |
+
+> 파일 단위의 상세 목차는 아래 [목차](#목차)에 있습니다.
+
 ## 개요
 로드맵까지 끝내고 나자 아쉬웠습니다. 게임 개발자로 취업하고자 한다면, 게임이 있어야 하지 않을까? 라는 안일한 생각의 시작으로 **어떤**게임을 만들까 고민했습니다. 예전에 물리까지 전부 구현해서 만든 수박게임을 만들까? 하다가, 생각을 바꾸었습니다. 최근 가장 많이하고 오래 한 게임을 이용해서 게임을 만들어보자! 그게 시작이었습니다.
 
@@ -26,14 +46,9 @@
 <img width="8664" height="9239" alt="ToDo" src="https://github.com/user-attachments/assets/7ccef649-330e-443a-9a5e-c3b3a22ea019" />
 
 
-처음에 기준은 위와 같이 흐름을 잡아보았습니다. 지금의 실력으로 혼자서 구현할 수 있는, 제가 시스템에서 눈여겨 봤던 부분에 대한 부분들을 중점으로, 코드를 구현해보고 싶었습니다. 다음 젤다에서 핵심, 가장 공들여서 짠 부분들로 이동이 가능합니다앗!
+처음에는 위 그림과 같이 흐름을 잡아보았습니다. 지금의 실력으로 혼자 구현할 수 있는, 그리고 제가 시스템에서 눈여겨봤던 부분을 중심으로 코드를 구현해보고 싶었습니다.
 
-Chapter 3. 엔티티 계층 설계
-Chapter 4. 스킬 실행 전략 (Strategy 패턴)
-Chapter 5. 전투 코어
-Chapter 6. 카메라 연출
-
-각 코드의 이름을 누르면 깃의 해당 코드로 즉시 이동 가능합니다.
+가장 공들인 핵심 파트는 **Chapter 3(엔티티 설계) ~ Chapter 6(카메라 연출)** 이며, 상단의 [코드 열람 순서](#코드-열람-순서)에서 바로 이동할 수 있습니다. 본문의 각 코드 이름을 누르면 깃의 해당 코드로 즉시 이동합니다.
 
 ## 목차
 ### Battle Scene
@@ -43,56 +58,67 @@ Chapter 6. 카메라 연출
 
 ---
 
-* [Chapter 1. 프로젝트 조망](#chapter-1-프로젝트-조망)
-    * [`Manager/BattleSceneManager.cs`](./Manager/BattleSceneManager.cs): 씬 진입점
-    * [`Core/BattleDirector.cs`](./Core/BattleDirector.cs): 게임 루프 관리 (라운드·턴·스폰·경제·게임오버)
-* [Chapter 2. 데이터 토대 및 용어 사전 정의](#chapter-2-데이터-토대-및-용어-사전-정의)
-    * [`Data/BattleData.cs`](./Data/BattleData.cs): 모든 시스템의 공용 어휘 및 구조체
-    * [`Data/UnitData.cs`](./Data/UnitData.cs): SO 유닛 정의 및 성급(Star) 보너스 구조 정의
-    * [`Data/UnitDatabase.cs`](./Data/UnitDatabase.cs): 희귀도별 풀링
-    * [`Data/ShopLevelProbability.cs`](./Data/ShopLevelProbability.cs): 상점 확률 데이터
-    * [`Data/StageData.cs`](./Data/StageData.cs): 스테이지 데이터
-* [Chapter 3. 엔티티 계층 설계](#chapter-3-엔티티-계층-설계)
-    * [`Entity/Character.cs`](./Entity/Character.cs): 핵심 베이스 클래스 (스탯·코인·UI·애니메이션)
-    * [`Entity/Enemy.cs`](./Entity/Enemy.cs): 상속 및 오버라이드
-    * [`Entity/Player.cs`](./Entity/Player.cs): 상속 및 드래그 앤 드롭 입력 처리
-    * [`Combat/TargetingArrowController.cs`](./Combat/TargetingArrowController.cs): 3D 선 긋기 툴 기반 타겟팅 화살표 제어
-    * [`Entity/HandSlotUI.cs`](./Entity/HandSlotUI.cs): UI 평면과 3D 월드 간의 상호작용 처리
-* [Chapter 4. 스킬 실행 전략 (Strategy 패턴)](#chapter-4-스킬-실행-전략-strategy-패턴)
-    * [`Logic/CoinActionLogic.cs`](./Logic/CoinActionLogic.cs): Custom CoinAction을 위한 추상 클래스
-    * [`Core/CoinResolver.cs`](./Core/CoinResolver.cs): 스킬 코인의 상태 조회·파괴·토스를 담당하는 순수 헬퍼
-    * [`Logic/StandardHitLogic.cs`](./Logic/StandardHitLogic.cs): 단순 구현체 1 (균등 분배 및 넉백)
-    * [`Logic/EscalatingHitLogic.cs`](./Logic/EscalatingHitLogic.cs): 단순 구현체 2 (점진적 대미지 증가)
-    * [`Logic/SpearAttackLogic.cs`](./Logic/SpearAttackLogic.cs): 투사체 기반 복합 구현제 (전체 조율)
-    * [`Logic/SpearProjectile.cs`](./Logic/SpearProjectile.cs): 투사체 기반 복합 구현체 (개별 동작)
-* [Chapter 5. 전투 코어](#chapter-5-전투-코어)
-    * [`Core/TargetingResolver.cs`](./Core/TargetingResolver.cs): 속도 기반 타겟 매칭 알고리즘 (합/일방공격 판정)
-    * [`Combat/BattleActionController.cs`](./Combat/BattleActionController.cs): 충돌 예측 및 넉백 물리 계산
-    * [`Core/BattleManager.cs`](./Core/BattleManager.cs): 전투 시퀀스 코루틴 전체 총괄 및 포커스 슬로모션 연출
-* [Chapter 6. 카메라 연출](#chapter-6-카메라-연출)
-    * [`Cameras/CameraTracker.cs`](./Cameras/CameraTracker.cs): 타겟 Bounds 및 중심점 추적
-    * [`Cameras/CameraController.cs`](./Cameras/CameraController.cs): FOV 기반 동적 줌 거리 계산
-    * [`Cameras/CameraMathVisualizer.cs`](./Cameras/CameraMathVisualizer.cs): 에디터 기즈모 디버깅 툴
-    * [`Cameras/Billboard.cs`](./Cameras/Billboard.cs): 2D 스프라이트가 3D 월드에 존재하기 위한 빌보드 기법
-* [Chapter 7. 플레이 필드 & 경제 시스템](#chapter-7-플레이-필드--경제-시스템)
-    * [`Shop/PlayerManager.cs`](./Shop/PlayerManager.cs): 코스트 시스템 관리
-    * [`Shop/ShopManager.cs`](./Shop/ShopManager.cs): 상점 리롤·구매·업그레이드
-    * [`Board/HandManager.cs`](./Board/HandManager.cs): 최대 10개의 핸드 관리
-    * [`Board/FieldManager.cs`](./Board/FieldManager.cs): 필드 배치 및 딕셔너리 기반 슬롯 관리
-    * [`Board/MergeManager.cs`](./Board/MergeManager.cs): 3개 합성 및 전투 중 큐 처리
-* [Chapter 8. UI 계층](#chapter-8-ui-계층)
-    * [`UI/CardUI.cs`](./UI/CardUI.cs): 상점에 나타나는 카드 UI
-    * [`UI/ShopUI.cs`](./UI/ShopUI.cs): 상점 UI
-    * [`UI/HandSlotUI.cs`](./UI/HandSlotUI.cs): 구매한 유닛 보관 슬롯 UI
-    * [`UI/SellZoneUI.cs`](./UI/SellZoneUI.cs): 판매존 UI
-    * [`UI/TopPanelUI.cs`](./UI/TopPanelUI.cs): 스테이지 정보 및 배틀 시작 버튼 UI
-    * [`UI/ToolTipUI.cs`](./UI/ToolTipUI.cs): 마우스 호버 툴팁 UI
-    * [`UI/GameOverUI.cs`](./UI/GameOverUI.cs): 게임 종료 관리 UI
-* [Chapter 9. 마무리](#chapter-9-마무리)
-    * [`Controller/BattleSceneUIController.cs`](./Controller/BattleSceneUIController.cs): 씬 연출 및 페이드 관리
-    * [`Core/BattleDirector.cs`](./Core/BattleDirector.cs): 최종 게임 루프 통제 및 경제/페널티 시스템 적용
+- [Battle Scene](#battle-scene)
+  - [코드 열람 순서](#코드-열람-순서)
+  - [개요](#개요)
+  - [목표](#목표)
+  - [목차](#목차)
+    - [Battle Scene](#battle-scene-1)
+  - [게임 설계](#게임-설계)
+  - [Chapter 1. 프로젝트 조망](#chapter-1-프로젝트-조망)
+    - [`Manager/BattleSceneManager.cs`](#managerbattlescenemanagercs)
+    - [`Core/BattleDirector.cs`](#corebattledirectorcs)
+  - [Chapter 2. 데이터 토대 및 용어 사전 정의](#chapter-2-데이터-토대-및-용어-사전-정의)
+    - [`Data/BattleData.cs`](#databattledatacs)
+    - [`Data/UnitData.cs`](#dataunitdatacs)
+    - [`Data/UnitDatabase.cs`](#dataunitdatabasecs)
+    - [`Data/ShopLevelProbability.cs`](#datashoplevelprobabilitycs)
+    - [`Data/StageData.cs`](#datastagedatacs)
+  - [Chapter 3. 엔티티 계층 설계](#chapter-3-엔티티-계층-설계)
+    - [`Entity/Character.cs`](#entitycharactercs)
+    - [`Entity/Enemy.cs`](#entityenemycs)
+    - [`Entity/Player.cs`](#entityplayercs)
+      - [Unity Canvas mode](#unity-canvas-mode)
+      - [3D 월드와 2D UI의 관계 및 좌표 작동 방식](#3d-월드와-2d-ui의-관계-및-좌표-작동-방식)
+    - [`Combat/TargetingArrowController.cs`](#combattargetingarrowcontrollercs)
+    - [`Entity/HandSlotUI.cs`](#entityhandslotuics)
+  - [Chapter 4. 스킬 실행 전략 (Strategy 패턴)](#chapter-4-스킬-실행-전략-strategy-패턴)
+    - [`Logic/CoinActionLogic.cs`](#logiccoinactionlogiccs)
+    - [`Core/CoinResolver.cs`](#corecoinresolvercs)
+    - [`Logic/StandardHitLogic.cs`](#logicstandardhitlogiccs)
+    - [`Logic/EscalatingHitLogic.cs`](#logicescalatinghitlogiccs)
+    - [`Logic/SpearAttackLogic.cs`](#logicspearattacklogiccs)
+    - [`Logic/SpearProjectile.cs`](#logicspearprojectilecs)
+  - [Chapter 5. 전투 코어](#chapter-5-전투-코어)
+    - [`Core/TargetingResolver.cs`](#coretargetingresolvercs)
+    - [`Combat/BattleActionController.cs`](#combatbattleactioncontrollercs)
+    - [`Core/BattleManager.cs`](#corebattlemanagercs)
+  - [Chapter 6. 카메라 연출](#chapter-6-카메라-연출)
+    - [`Cameras/CameraTracker.cs`](#camerascameratrackercs)
+    - [`Cameras/CameraController.cs`](#camerascameracontrollercs)
+    - [`Cameras/CameraMathVisualizer.cs`](#camerascameramathvisualizercs)
+    - [`Cameras/Billboard.cs`](#camerasbillboardcs)
+  - [Chapter 7. 플레이 필드 \& 경제 시스템](#chapter-7-플레이-필드--경제-시스템)
+    - [`Shop/PlayerManager.cs`](#shopplayermanagercs)
+    - [`Shop/ShopManager.cs`](#shopshopmanagercs)
+    - [`Board/HandManager.cs`](#boardhandmanagercs)
+    - [`Board/FieldManager.cs`](#boardfieldmanagercs)
+    - [`Board/MergeManager.cs`](#boardmergemanagercs)
+  - [Chapter 8. UI 계층](#chapter-8-ui-계층)
+    - [`UI/CardUI.cs`](#uicarduics)
+    - [`UI/ShopUI.cs`](#uishopuics)
+    - [`UI/HandSlotUI.cs`](#uihandslotuics)
+    - [`UI/SellZoneUI.cs`](#uisellzoneuics)
+    - [`UI/TopPanelUI.cs`](#uitoppaneluics)
+    - [`UI/ToolTipUI.cs`](#uitooltipuics)
+    - [`UI/GameOverUI.cs`](#uigameoveruics)
+  - [Chapter 9. 마무리](#chapter-9-마무리)
+    - [`Controller/BattleSceneUIController.cs`](#controllerbattlesceneuicontrollercs)
+    - [`Core/BattleDirector.cs`](#corebattledirectorcs-1)
 
 ## 게임 설계
+
+지금부터 림토체스를 실제로 어떻게 구현했는지, Chapter 1부터 9까지 순서대로 풀어가겠습니다.
 
 ## Chapter 1. 프로젝트 조망
 > 게임의 핵심 로직 및 루프를 간단히 설명
@@ -100,7 +126,7 @@ Chapter 6. 카메라 연출
 ### [`Manager/BattleSceneManager.cs`](./Manager/BattleSceneManager.cs)
 > 씬 진입점
 
-씬에 진입하는 로직을 담았습니다. 전투에 사용하는 BGM(림버스 여러 전투 BGM중 가장 좋아하는 노래들)들을 QUeue에 저장하고, 이 음악들을 재생시킵니다. 이와 동시에 씬 진입 기본 연출인 페이드인을 수행합니다.
+씬에 진입하는 로직을 담았습니다. 전투에 사용하는 BGM(림버스 여러 전투 BGM중 가장 좋아하는 노래들)들을 Queue에 저장하고, 이 음악들을 재생시킵니다. 이와 동시에 씬 진입 기본 연출인 페이드인을 수행합니다.
 
 
 ### [`Core/BattleDirector.cs`](./Core/BattleDirector.cs)
@@ -210,9 +236,13 @@ BattleDirector는 라운드/턴/스폰/경제/승패를 호출하는 게임 Dire
         public CoinActionLogic customLogic;
     }
 ```
-림버스 전투의 꽃이라고 할 수 있는 코인 시스템입니다. 게임을 플레이 해보면서 각 코인에 '애니메이션'과 'hit'로직이 구분되어 있다고 생각했습니다. 또한 각 코인 -> 1회 타격이 아닌건 여러 전투를 통해 익히 알고 있었습니다. 즉, 코인으로 인한 타격은 키워드 활성화를 진행하고, 각 코인은 고유의 공격 애니메이션과 공격 횟수, 데미지 계산, 애니메이션등을 담고 있다고 가정하고 코인 작업을 진행했습니다.
+림버스 전투의 꽃이라고 할 수 있는 코인 시스템입니다. 게임을 플레이 해보면서 각 코인에 '애니메이션'과 'hit'로직이 구분되어 있다고 생각했습니다. 또한 각 코인 -> 1회 타격이 아닌건 여러 전투를 통해 익히 알고 있었습니다. 즉, 코인으로 인한 타격은 키워드 활성화를 진행하고, 각 코인은 고유의 공격 애니메이션과 공격 횟수, 대미지 계산, 애니메이션등을 담고 있다고 가정하고 코인 작업을 진행했습니다.
 
-코인의 개수는 유동적입니다. 또한 림버스 전투의 핵심인 코인 파괴(`isBroken`)와 앞(`frontValue`), 뒤(`backValue`) 값에 의한 값 추가 필드를 추가해두었습니다. 인스펙터에서 이를 통해 코인 개수를 자유롭게 조절하고, 이에 맞는 애니메이션 vfx를 할당하고, 그 애니메이션에 맞는 공격 횟수나 딜레이를 설정하게 해서, 코드 수정을 통한 로직 수정이 아닌, 인스펙터에서 편하게 수정하게끔 설계했습니다. 여기에 코인이 토스될 때 나는 띵 소리와, 해당 코인의 공격 사운드, 피격 사운드를 별도로 구분했습니다. 피격 사운드까지 구분할 필요는 없었지만, 각 코인마다 피격 사운드가 다르면 추후에 다른 방식으로 사용할 수 있지 않을까, 하는 생각으로 넣었습니다.
+코인의 개수는 유동적입니다. 또한 림버스 전투의 핵심인 코인 파괴(`isBroken`)와 앞(`frontValue`), 뒤(`backValue`) 값에 의한 값 추가 필드를 추가해두었습니다.
+
+인스펙터에서 이를 통해 코인 개수를 자유롭게 조절하고, 이에 맞는 애니메이션 vfx를 할당하고, 그 애니메이션에 맞는 공격 횟수나 딜레이를 설정하게 해서, 코드 수정을 통한 로직 수정이 아닌, 인스펙터에서 편하게 수정하게끔 설계했습니다.
+
+여기에 코인이 토스될 때 나는 띵 소리와, 해당 코인의 공격 사운드, 피격 사운드를 별도로 구분했습니다. 피격 사운드까지 구분할 필요는 없었지만, 각 코인마다 피격 사운드가 다르면 추후에 다른 방식으로 사용할 수 있지 않을까, 하는 생각으로 넣었습니다.
 
 또한 hitDelay와 customHitDelays를 넣어서 공격 딜레이, 그러니깐 다단 히트 사이사이 시간을 자유롭게 조절할 수 있게 구현했습니다.
 
@@ -635,12 +665,14 @@ uiEndWorldPos.z = _canvasRect.position.z;
 - 이제 위치를 바꾸었으니, 타겟팅 화살표를 그려야합니다. 여기에서, 이 프로젝트 진행하며 '이걸 꼭 해야해? 그냥 씨 때려 칠까...' 를 많이 고민했던 부분입니다. 더럽게 어렵고, 처음에는 슬더슬2처럼 쭈왁 꺾이는 이쁜 화살표랑 선 구현하고 싶었는데 일직선으로 타협봤습니다.
 
 ### [`Combat/TargetingArrowController.cs`](./Combat/TargetingArrowController.cs)
+> 3D 선 긋기 툴 기반 타겟팅 화살표 제어
+
 - 선을 만드는건 쉽게 생각했습니다.
   1. 마우스 클릭을 한다. 이때, 마우스 포인터를 변경한다. (림버스 인게임처럼 둥근 모양으로 교체)
   2. 클릭한 부분에 `시작점`을 남겨두고 거기에서부터 선을 생성한다. `끝점`은 언제나 마우스 포인터로 한다.
 - 다만, 이런 방법은 사용할 수 없었습니다. 
   - 마우스 커서 이미지를 `Cursor.SetCursor`로 바꿀수는 있지만, 이렇게 해버리면, 만약에 화살표 형식의 머리라면, 머리가 항상 시작점을 등지고 타겟 방향으로 마우스 커서 방향을 회전시키려면 시스템 커서로는 불가능했습니다. 그러니깐 원래 생각했던 방법은 웹이나 2D 엔진에서나 사용할 방법이지, 유니티에서 사용할 방법은 아니었습니다.
-  - 유니티에서는... 선 긋기 전용 툴 따위는 없었습니다. 캔버스 UI 자체는 텍스트나 이미지를 띄우는 기능은 있지만 'A지점에서 B점까지 선을 그려라'라는 기본 컴포넌트 같은게 없었습니다... 그래서 이걸 만약에 UI 캔버스 안에서만 해결하려고 한다? 그럼 얇고 긴 네모난 Image를 하나 만든 다음, 스크립트로 시작점과 끝점 사이의 거리를 계산해서 Image의 길이를 늘리고, 각도를 계산해서 RectTransform을 회전시키는 복잡한 수학을 매 프레임 돌려야 합니다. (직선은 어찌어찌 해도, 나중에 곡선을 넣고 싶어지면 아예 불가능해집니다.) 사실 곡선을 이렇게 하려다가 실패해서 떄려쳤습니다.
+  - 유니티에서는... 선 긋기 전용 툴 따위는 없었습니다. 캔버스 UI 자체는 텍스트나 이미지를 띄우는 기능은 있지만 'A지점에서 B점까지 선을 그려라'라는 기본 컴포넌트 같은게 없었습니다... 그래서 이걸 만약에 UI 캔버스 안에서만 해결하려고 한다? 그럼 얇고 긴 네모난 Image를 하나 만든 다음, 스크립트로 시작점과 끝점 사이의 거리를 계산해서 Image의 길이를 늘리고, 각도를 계산해서 RectTransform을 회전시키는 복잡한 수학을 매 프레임 돌려야 합니다. (직선은 어찌어찌 해도, 나중에 곡선을 넣고 싶어지면 아예 불가능해집니다.) 사실 곡선을 이렇게 하려다가 실패해서 때려쳤습니다.
 - 그럼 불가능한가? 그만두어야하나? 어림도 없지. 찾고 또 찾던 중 `LineRenderer`를 찾았습니다. LineRenderer는 3D 입체 공간에서 사용하는 3D 선 긋기 툴입니다. 다만 이걸 사용하면 이제 본격적인 문제가 발생합니다. 선을 아무리 그어보려고 작동시켜도 이게 당길수록(시작점에서 멀 수록) 선이 얇아지고, 가까울수록 커지고. 이상해지기 시작했습니다. 찾아보니 당연하게도...
   - 캔버스(UI): 납작한 2D 평면 캔버스. 원근감 따위 없음.
   - LineRenderer: 3D 입체 공간. 앞, 뒤, 원근감이 존재.
@@ -702,9 +734,9 @@ uiEndWorldPos.z = _canvasRect.position.z;
     이 부분은 AI의 도움을 특히 많이 받았습니다. 특히 이 3D 라인 렌더러와 2D 캔버스 사이의 매칭 방법과 텍스쳐 타일링 해결 방법을 해결하는데 많은 도움을 받았습니다.
 
 - 순서를 정리해보면 다음과 같이 정리됩니다.
-  1. 3D -> 2D 픽셀: 메인 카메라(`_mainCamera`)를 기준으로, 3D 월드에 서 있는 유닛의 위치를 스크릿 픽셀 좌표(마우스와 같은 단위)로 변환합니다.
+  1. 3D -> 2D 픽셀: 메인 카메라(`_mainCamera`)를 기준으로, 3D 월드에 서 있는 유닛의 위치를 스크린 픽셀 좌표(마우스와 같은 단위)로 변환합니다.
   2. 2D픽셀 -> UI 3D 평면: 유닛의 픽셀 좌표와 마우스의 픽셀 좌표를 모두 UI 카메라(`_uiCamera`) 기준의 캔버스 3D 좌표로 변환하여, 두 점을 같은 캔버스 위로 불러옵니다.
-  3. Z축 평탄화: LineRenderer 특유의 원근감(구께 왜곡)을 차단하기 위해, 변환된 두 점의 Z값을 캔버스 Z값을 강제 고정합니다.
+  3. Z축 평탄화: LineRenderer 특유의 원근감(두께 왜곡)을 차단하기 위해, 변환된 두 점의 Z값을 캔버스 Z값을 강제 고정합니다.
   4. 그리기: 완벽하게 평평해진 두 좌표를 `_arrowController.DrawArrow`에 넘기고, 여기서 LineRenderer가 점을 잇고, 화살표 머리가 회전하며 텍스처 타일링이 계산됩니다.
   5. UI 상호작용 체크: 무거운 물리 엔진(`Physics.Raycast`) 대신 `RectTransformUtility.RectangleContainsScreenPoint`라는 가벼운 수학 공식으로 현재 마우스가 판매 구역(SellZone) 위에 있는지 판별하여 UI 이펙트를 켭니다. 그러면 SellZone이 입을 쫘악 벌리고 유닛을 먹어치울지 말지 결정합니다.
 - 여기서 OnEndDrag가 호출되면 다음과 같이 작동합니다.
@@ -715,12 +747,13 @@ uiEndWorldPos.z = _canvasRect.position.z;
 그럼 반대로, 핸드에서 필드로 이동할때는 어떻게 되느냐? 바로 다음 코드에서 볼 수 있습니다.
 
 ### [`Entity/HandSlotUI.cs`](./Entity/HandSlotUI.cs)
+> UI 평면과 3D 월드 간의 상호작용 처리
 
 이제 3D 공간에 존재하는 유닛을 UI 평면으로 끌고왔으니, 반대도 해봐야합니다. 조립은 해체의 역순, 해체는 조립의 역순이므로 상대적으로 쉽게(?) 구현했습니다.
 
 이 핸드슬롯의 핵심은 
 
-- `OnBeginDrag`: `_canvasGroup.blocksRaycasts = false;`를 시전해줍니다. 이는 드래그를 시작하는 순간 슬로 UI 자체가 마우스 포인터를 가려버리면 마우ㅜ스가 필드나 판매 구역을 인식할 수 없습니다. 필드에서 핸드나 셀존으로 할때는 문제가 없었는게, 선만 생성했지 마우스 위치에 미리보기 같은걸 생성하지 않았기에 여기서만 구현해두었습니다. 물론 추후에 미리보기용 이미지나 잡힌 캐릭터가 바둥바둥 거리는 귀여운(?) 애니메이션 이미지 같은걸 넣게 된다면 거기서도 이 레이케스팅 해제를 추가해야합니다.
+- `OnBeginDrag`: `_canvasGroup.blocksRaycasts = false;`를 시전해줍니다. 이는 드래그를 시작하는 순간 슬롯 UI 자체가 마우스 포인터를 가려버리면 마우스가 필드나 판매 구역을 인식할 수 없습니다. 필드에서 핸드나 셀존으로 할때는 문제가 없었는데, 선만 생성했지 마우스 위치에 미리보기 같은걸 생성하지 않았기에 여기서만 구현해두었습니다. 물론 추후에 미리보기용 이미지나 잡힌 캐릭터가 바둥바둥 거리는 귀여운(?) 애니메이션 이미지 같은걸 넣게 된다면 거기서도 이 레이케스팅 해제를 추가해야합니다.
 
 - `OnDrag`: 여기에선 앞보다 로직이 확 줄어들었습니다. `Player.cs`에서는 시작점이 3D 공간에 있기 때문에 픽셀로 바꾸고 이걸 다시 캔버스로 바꿔야했지만 여긴 시작점 자체가 UI요소에 있으므로 이 과정이 생략됩니다. 그러니 마우스 위치(끝점) 하나만 캔버스 공간으로 보내주고, Z축 다림질 역시 시작점의 Z값 (`lineStartPos.position.z`)에 맞춰버리면 이쁘게 나옵니다. 아 이쁘다.
 
@@ -755,7 +788,7 @@ if (Physics.Raycast(worldRay, out var hit) && hit.collider.CompareTag("FieldZone
 ### [`Logic/CoinActionLogic.cs`](./Logic/CoinActionLogic.cs)
 > Custom CoinAction을 위한 추상 클래스
 
-- SO 형태의 추상 클래스입니다. 림버스 전투를 보면, 각 코인이 고유의 애니메이션과 공격 로직을 가지고 있습니다. 어떤건 다단히트기도 하고, 어떤건 묵직한 한방(아아 뫼르소...)을 내기도 합니다. 그런데 if문 무한 중첩으로 구현하면... 생각만해도 아찔해져서 SO 형태로, '끼워넣기'가 가능하게 구현해보았습니다. `BattleManager`(아래에서 더 자세히 다룹니다!!!)에서는 결론적으로, 코인 앞뒷면을 판정하고 해당 코인의 총 데미지를 전달합니다. 가령, 합이 끝나서 각 코인마다 데미지를 주어야 하는 시점이 오면, 해당 코인을 토스하고 -> 앞뒷면 가중치 계산하고 -> 캐릭터 스탯이랑 스킬 데미지 계산해서 -> 총 데미지를 여기로 전달합니다. 그러면 이제 그 총 데미지를 다단히트로 할건지, 아니면 묵직한 한방을 때릴껀지, 이러면서 개쩌는 애니메이션을 출력할건지 등을 결정하는 곳이 바로 이 CoinActionLogic입니다.
+- SO 형태의 추상 클래스입니다. 림버스 전투를 보면, 각 코인이 고유의 애니메이션과 공격 로직을 가지고 있습니다. 어떤건 다단히트기도 하고, 어떤건 묵직한 한방(아아 뫼르소...)을 내기도 합니다. 그런데 if문 무한 중첩으로 구현하면... 생각만해도 아찔해져서 SO 형태로, '끼워넣기'가 가능하게 구현해보았습니다. `BattleManager`(아래에서 더 자세히 다룹니다!!!)에서는 결론적으로, 코인 앞뒷면을 판정하고 해당 코인의 총 대미지를 전달합니다. 가령, 합이 끝나서 각 코인마다 대미지를 주어야 하는 시점이 오면, 해당 코인을 토스하고 -> 앞뒷면 가중치 계산하고 -> 캐릭터 스탯이랑 스킬 대미지 계산해서 -> 총 대미지를 여기로 전달합니다. 그러면 이제 그 총 대미지를 다단히트로 할건지, 아니면 묵직한 한방을 때릴껀지, 이러면서 개쩌는 애니메이션을 출력할건지 등을 결정하는 곳이 바로 이 CoinActionLogic입니다.
 - 당연히 혼자 만들고있는 입장에서, 모든 캐릭터의 공격 로직을 customLogic으로 만들어서 사용할수는 없기에 보험도 들어두었습니다.
 ```csharp
                 else
@@ -817,7 +850,7 @@ public static IEnumerator TossSlotCoinsRoutine(ActionSlot slot, float totalDurat
 ### [`Logic/StandardHitLogic.cs`](./Logic/StandardHitLogic.cs)
 > 단순 구현체 1
 
-가장 기본이 되는 타격 로직입니다. 넘겨받은 `totalDamage`를 코인의 타수(`hitCount`)만큼 균등하게 나눕니다. (이 `totalDamage`도 `totalDamage`를 두고 균등하게 나눈 뒤, Random으로 구분해서 데미지를 분산시키는 등 너무 균등하지 않게 확장도 염두에 두고 있습니다.) 또한 **넉백**이 존재합니다. 여기서 일전에 말한 무게가 사용됩니다.
+가장 기본이 되는 타격 로직입니다. 넘겨받은 `totalDamage`를 코인의 타수(`hitCount`)만큼 균등하게 나눕니다. (이 `totalDamage`도 `totalDamage`를 두고 균등하게 나눈 뒤, Random으로 구분해서 대미지를 분산시키는 등 너무 균등하지 않게 확장도 염두에 두고 있습니다.) 또한 **넉백**이 존재합니다. 여기서 일전에 말한 무게가 사용됩니다.
 
 ```csharp
 // 밀려날 방향 계산 (공격자 -> 방어자 방향)
@@ -1009,7 +1042,7 @@ var finalBattles = new List<BattleMatchup>();
                 }
             }
 ```
-이제 이렇게 만들어진 내부 링크를 바탕으로 합과 일방공격을 속도 순서대로 진행하기 위해 BattleMatchup 리스트에 이를 하나씩 등록합니다.(여기에서 `processedSlots`을 `HashSet<ActionSlot>`으로 사용한 이유는, `List.Contains(slot)`은 리스트의 처음부터 끝까지 데이터를 찾기 때문에 O(N)의 시간이 걸립니다. 하ㅓ지만 `HashSet.Contains(slot)`은 해시 알고리즘으로 데이터를 찾으므로 O(1)의 시간이 걸립니다. (와!) 물론... 슬롯이 실상 인게임에서도 많아봤자 닝-겐이 체감할 수 없는 수준의 차이만 생기겠지만 추후 100 vs 100 전투가 된다면? 이건 분명 체감이 있을겁니다. 슬롯 100 vs 100개의 전투? 가슴이 웅장해집니다.)
+이제 이렇게 만들어진 내부 링크를 바탕으로 합과 일방공격을 속도 순서대로 진행하기 위해 BattleMatchup 리스트에 이를 하나씩 등록합니다.(여기에서 `processedSlots`을 `HashSet<ActionSlot>`으로 사용한 이유는, `List.Contains(slot)`은 리스트의 처음부터 끝까지 데이터를 찾기 때문에 O(N)의 시간이 걸립니다. 하지만 `HashSet.Contains(slot)`은 해시 알고리즘으로 데이터를 찾으므로 O(1)의 시간이 걸립니다. (와!) 물론... 슬롯이 실상 인게임에서도 많아봤자 닝-겐이 체감할 수 없는 수준의 차이만 생기겠지만 추후 100 vs 100 전투가 된다면? 이건 분명 체감이 있을겁니다. 슬롯 100 vs 100개의 전투? 가슴이 웅장해집니다.)
 그럼 여기에서 최종적으로 전달받은 BattleMatchup 리스트가 BattleManager에 전달되어 실제 전투를 진행하게 됩니다.
 
 `GenerateSlots`: 전투 시작 전, 각 캐릭터가 이번 턴에 몇 번 행동할지, 그리고 어떤 스킬을 쓸지 정해줍니다. 방어 코드를 한번 거치고 난 뒤, 캐릭터의 `ActionSlotCount`에 접근하여 해당 개수만큼 슬롯을 생성, 스킬을 적용합니다. 이때 캐릭터 스킬의 각 확률에 기반해서 슬롯을 생성합니다.
@@ -1324,7 +1357,7 @@ CurrentTargetSize = maxSize > 0.1f ? maxSize : 5f;
 
 그리고 여기에서 중심점만 바라봅니다. 앞선 `BattleManager`에서 `actionController.CalculateMeetingData` 구한 좌표를 이곳에 전달합니다. 그러면 '두 캐릭터 사이의 충돌 지점'을 카메라가 중심점으로 이동하게 됩니다. 여기에 추가적인 줌인, 줌아웃을 추가한다면 더 역동감있는, 림버스 카메라 연출이 될 겁니다. (와!)
 
-즉, 이 `CameraTracker`는 카메라를 움직이지 않고, 중심점과 크기만 게산하는 계산기입니다.
+즉, 이 `CameraTracker`는 카메라를 움직이지 않고, 중심점과 크기만 계산하는 계산기입니다.
 
 ### [`Cameras/CameraController.cs`](./Cameras/CameraController.cs)
 > FOV 기반 동적 줌 거리 계산
@@ -1367,7 +1400,7 @@ Tracker가 계산을 했다면, `CameraController`가 이름값을 할 차례입
 
 2D 스프라이트나 UI 캔버스는 수학적으로 두께가 0인 완벽한 평면입니다. 해서 만약에 3D 공간에서 카메라가 호오오옥시나 캐릭터의 옆으로 이동하거나 회전했을 때 이 평면이 카메라를 따라 돌지 않으면 너무나 얇은 그들의 실체를 마주하게 됩니다(무섭따). 사실, 언제나 앞면만 보여주니깐 큰 문제는 없지만 만에 하나 라는 경우도 있으니 부착해두었습니다.
 
-그래서 캐릭터의 회전값(`transform.rotation`)을 메인 카메라의 회전값(`_mainCamera.transform.rotation`)과 완벽하게 동일하게 맞춰치켜 세움으로써, 카메라가 3D 공간의 어디로 이동하든 항상 스프라이트의 정면 이미지만을 렌더링하게 만들었습니다.
+그래서 캐릭터의 회전값(`transform.rotation`)을 메인 카메라의 회전값(`_mainCamera.transform.rotation`)과 완벽하게 동일하게 맞춰서 카메라를 바라보게 세움으로써, 카메라가 3D 공간의 어디로 이동하든 항상 스프라이트의 정면 이미지만을 렌더링하게 만들었습니다.
 
 다만 처음에는 `transform.LookAt(_mainCamera.transform.position)`을 사용했는데 이게... 화면 가장자리로 밀려난 캐릭터가 짜부가 되어버렸습니다. 이는 찾아보니 다음과 같았습니다.
  - LookAt의 문제점: 카메라 렌즈의 '중심점'을 향해 각도를 틀어버립니다. 만약 캐릭터가 화면 구석에 있다면, 카메라 렌즈를 쳐다보기 위해 몸을 비스듬하게 틀게 되고, 이로 인해 2D 원본 이미지의 비율이 투시(Perspective)에 의해 찌그러집니다.
@@ -1376,22 +1409,22 @@ Tracker가 계산을 했다면, `CameraController`가 이름값을 할 차례입
 ## Chapter 7. 플레이 필드 & 경제 시스템
 > 인게임상의 플레이 필드(보드)와 경제 시스템을 관리
 
-### [`Shop/PlayerManager.cs`]()
+### [`Shop/PlayerManager.cs`](./Shop/PlayerManager.cs)
 > 코스트 시스템 관리
 
 현재 코스트, 시작 코스트, 코스트 판매를 담당합니다.
 
-### [`Shop/ShopManager.cs`]()
+### [`Shop/ShopManager.cs`](./Shop/ShopManager.cs)
 > 상점 리롤·구매·업그레이드
 
 상점 새로고침, 구입, 상점 레벨 기반으로 레어도에 기반한 확률 유닛 제공을 담당합니다. 
 
-### [`Board/HandManager.cs`]()
+### [`Board/HandManager.cs`](./Board/HandManager.cs)
 > 핸드 관리
 
 최대 10개의 핸드만을 가질 수 있게 구성했습니다. 각각 유닛 데이터를 가지고 있으며 HandLayout 하위에 프리팹으로 handSlot 유닛들을 생성한 뒤, 정렬합니다.
 
-### [`Board/FieldManager.cs`]()
+### [`Board/FieldManager.cs`](./Board/FieldManager.cs)
 > 필드 관리
 
 필드를 관리합니다. 필드는 다음 사진처럼 구성되어있습니다.
